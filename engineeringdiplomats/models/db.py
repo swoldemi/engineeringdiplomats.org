@@ -77,9 +77,20 @@ class MongoConnector(object):
 				raise
 	
 
-	def insert_question(self) -> None:
-		"""Inserts an inquiry into the database."""
-		pass
+	def insert_question(self, data: QuestionDocument) -> None:
+		"""Inserts an inquiry into the database.
+		
+		Parameters
+		-----------
+		data : QuestionDocument
+			The question and metadata to be inserted into the document
+		"""
+		with current_app.app_context():
+			try:
+				assert self.questions_collection.insert_one(data).inserted_id
+			except self.errors + (AssertionError,) as e:
+				self.logger.exception(e)
+				raise
 	
 
 	def get_questions(self) -> List[dict]:
