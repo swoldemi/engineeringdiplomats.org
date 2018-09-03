@@ -4,6 +4,7 @@
 
 import os
 
+from datetime import datetime
 from typing import TypeVar, Union
 from uuid import uuid4
 
@@ -17,7 +18,7 @@ from flask import (
 	url_for,
 )
 
-from ..models import User
+from ..models import User, StudentQueryForm, QuestionDocument
 
 HTMLBody = TypeVar("HTMLBody", str, str, str)
 
@@ -107,10 +108,8 @@ class SiteHandler(object):
 		}
 		graphdata = self.oauth.get("me", headers=headers).data
 		user = User(graphdata["displayName"], graphdata["mail"])
-		print(user.is_diplomat)
 		if user.email.lower() in self.db.get_diplomats():
 			user.is_diplomat = True
-		print(user.is_diplomat)
 		session["user"] = {"name": user.name, "email": user.email, "is_diplomat": user.is_diplomat}
 		flash(f"Welcome {user.name.split(',')[1]}")
 		return redirect(url_for("index"))
@@ -141,16 +140,33 @@ class SiteHandler(object):
 
 	def ask(self) -> Union[redirect, HTMLBody]:
 		"""View for any student to post a question.
-		
+
 		Notes
 		------
 		Both Diplomats and students have the same permissions here.
 		"""
+		form = StudentQueryForm()
 		if self.is_authorized:
 			if request.method == "GET":
-				return render_template("ask.jinja2", name=session["user"]["name"], email=session["user"]["email"])
+				return render_template(
+				"ask.jinja2", 
+				name=session["user"]["name"], 
+				email=session["user"]["email"],
+				form=form,
+			)
+
 			# Add a question to the database
-			print(dict(request.form))
+			question_doc = QuestionDocument(
+				question_id=uuid4().hex,
+				submitters_name=form.name.data,
+				submitters_email=form.email.data,
+				submission_date=datetime.now(),
+				question=form.question.data,
+			)
+
+			self.db.insert_question(question_doc)
+			
+			# Flash a success message
 			flash("Thanks for your question! You will receive an email response soon!")
 			return redirect(url_for("ask"))
 		return "You must login to ask a question."
