@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from wtforms import Form, validators
+from flask_wtf import FlaskForm
+from wtforms import StringField, validators
 
 
-class StudentQueryForm(Form):
+class StudentQueryForm(FlaskForm):
     """Encapsulation of a form for questions asked by the student."""
-    question = StringField("Question", [validators.DataRequired()])
-    name = StringField("Name", [validators.DataRequired()])
-    email = StringField("Email Address", [validators.DataRequired()])
+    question = StringField("question", [validators.DataRequired()])
+    name = StringField("name", [validators.DataRequired()])
+    email = StringField("email", [validators.DataRequired()])
+
+
+class DiplomatAnswerForm(FlaskForm):
+    """Encpasulation of a form for answers provided by Engineering Diplomats."""
+    pass
+
