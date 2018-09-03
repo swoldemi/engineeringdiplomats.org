@@ -1,4 +1,46 @@
 {% extends 'layout.jinja2' -%}
 {% block body -%}
-ask
+    <div class="box cta">
+        <p class="has-text-centered">
+            <span class="tag is-dark">Need help?</span> 
+            <br/> Submit any questions you may have below! 
+            <br/> An Engineering Diplomat will send a response to your TTU email address.
+        </p>
+    </div>
+    <div class="container is-vcentered">
+        <form method="POST" action="/ask">
+            <div class="field">
+                <label class="label">Name (read-only)</label>
+                <div class="control has-icons-right">
+                    <input name="name" class="input" type="text" placeholder="First and last name" value="{{ session.user.name }}"readonly>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Email (read-only)</label>
+                <div class="control has-icons-right">
+                    <input name="email" class="input" type="email" placeholder="Email" value="{{ session.user.email.lower() }}" readonly>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Question</label>
+                <div class="control">
+                    <textarea name="question" class="textarea" placeholder="Type your question here!" required></textarea>
+                </div>
+            </div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <input type="submit" class="button is-link is-ttu-red"></input>
+                </div>
+            </div>
+        </form>
+    </div>
 {%- endblock %}
