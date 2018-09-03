@@ -2,17 +2,27 @@
 {% block body -%}
     <div class="box cta">
         <p class="has-text-centered">
-            <span class="tag is-dark">Need help?</span> 
-            <br/> Submit any questions you may have below! 
-            <br/> An Engineering Diplomat will send a response to your TTU email address.
+            {% with messages = get_flashed_messages() -%} 
+            {% if messages %}
+            {% for message in messages -%}
+            <div class="notification is-dark">{{ message }}</div>
+            {% endfor %}
+            {%- else -%}
+            <span class="tag is-dark">Need help?</span>
+            <br /> Submit any questions you may have below!
+            <br /> An Engineering Diplomat will send a response to your TTU email address.
+            {%- endif -%} 
+            {%- endwith %}
         </p>
     </div>
     <div class="container is-vcentered">
         <form method="POST" action="/ask">
+            {{ form.csrf_token }}
             <div class="field">
                 <label class="label">Name (read-only)</label>
                 <div class="control has-icons-right">
-                    <input name="name" class="input" type="text" placeholder="First and last name" value="{{ session.user.name }}"readonly>
+                    <input name="name" class="input" type="text" placeholder="First and last name" value="{{ session.user.name }}"
+                        readonly>
                     <span class="icon is-small is-right">
                         <i class="fas fa-eye"></i>
                     </span>
@@ -22,7 +32,8 @@
             <div class="field">
                 <label class="label">Email (read-only)</label>
                 <div class="control has-icons-right">
-                    <input name="email" class="input" type="email" placeholder="Email" value="{{ session.user.email.lower() }}" readonly>
+                    <input name="email" class="input" type="email" placeholder="Email" value="{{ session.user.email.lower() }}"
+                        readonly>
                     <span class="icon is-small is-right">
                         <i class="fas fa-eye"></i>
                     </span>
@@ -34,6 +45,10 @@
                 <div class="control">
                     <textarea name="question" class="textarea" placeholder="Type your question here!" required></textarea>
                 </div>
+            </div>
+
+            <div>
+                {{- form.recaptcha }}
             </div>
 
             <div class="field is-grouped">

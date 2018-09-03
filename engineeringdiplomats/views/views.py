@@ -154,22 +154,24 @@ class SiteHandler(object):
 				email=session["user"]["email"],
 				form=form,
 			)
-
-			# Add a question to the database
-			question_doc = QuestionDocument(
-				question_id=uuid4().hex,
-				submitters_name=form.name.data,
-				submitters_email=form.email.data,
-				submission_date=datetime.now(),
-				question=form.question.data,
-			)
-
-			self.db.insert_question(question_doc)
-			
-			# Flash a success message
-			flash("Thanks for your question! You will receive an email response soon!")
-			return redirect(url_for("ask"))
-		return "You must login to ask a question."
+			if form.validate_on_submit():
+				# Add a question to the database
+				question_doc = QuestionDocument(
+					question_id=uuid4().hex,
+					submitters_name=form.name.data,
+					submitters_email=form.email.data,
+					submission_date=datetime.now(),
+					question=form.question.data,
+				)
+				self.db.insert_question(question_doc)
+				# Flash a success message
+				flash("Thanks for your question! You will receive an email response soon!")
+				return redirect(url_for("ask"))
+			if form.recaptcha.errors:
+				# Flash an error
+				flash("Please complete the reCAPTCHA.")
+				return redirect(url_for("ask"))
+		return "Please login to ask questions."
 
 
 	def events(self) -> [redirect, HTMLBody]:
