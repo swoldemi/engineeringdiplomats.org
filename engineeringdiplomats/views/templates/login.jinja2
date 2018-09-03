@@ -1,4 +1,16 @@
 {% extends 'layout.jinja2' -%}
 {% block body -%}
-login
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <form method="POST" action="/login" class="control">
+                    <button type="submit" class="button has-text-white is-ttu-red is-medium is-fullwidth">
+                        <i class="fab fa-windows"></i>
+                        &nbsp;
+                        Login with your TTU Email Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 {%- endblock %}
