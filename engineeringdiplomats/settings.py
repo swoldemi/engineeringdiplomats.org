@@ -17,4 +17,16 @@ microsoft_oauth_config = {
     "authorize_url" : "https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize"
 }
 
+app_config_kwargs = {
+	"SECRET_KEY": os.environ.get("SECRET_KEY"),
+	"MAIL_SERVER": os.environ.get("MAIL_SERVER"),
+	"MAIL_PORT": int(os.environ.get("MAIL_PORT")),
+	"MAIL_USERNAME": os.environ.get("MAIL_ACCOUNT"),
+	"MAIL_PASSWORD": os.environ.get("MAIL_PASS"),
+    "RECAPTCHA_PUBLIC_KEY": os.environ.get("RECAPTCHA_PUBLIC_KEY"),
+    "RECAPTCHA_PRIVATE_KEY": os.environ.get("RECAPTCHA_PRIVATE_KEY"),
+    "RECAPTCHA_PARAMETERS": {"hl": "en", "render": "explicit"},
+    "RECAPTCHA_DATA_ATTRS": {"theme": "dark"},
+}
+
 emails_log_file = open(os.path.join(__location__, "../logs/emails.log"), "a+")

@@ -5,12 +5,16 @@ import os
 import sys
 
 from flask import Flask
+from flask_mail import Mail
 from flask_oauthlib.client import OAuth
 
+
+from engineeringdiplomats.mailers import StudentMailer
 from engineeringdiplomats.models import MongoConnector
 from engineeringdiplomats.routes import apply_routes
+from engineeringdiplomats.settings import microsoft_oauth_config, app_config_kwargs
 from engineeringdiplomats.views import SiteHandler
-from engineeringdiplomats.settings import microsoft_oauth_config
+
 
 # Logging setup
 ld = logging.DEBUG
@@ -26,31 +30,27 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
-RECAPTCHA_PARAMETERS = {"hl": "en", "render": "explicit"}
-RECAPTCHA_DATA_ATTRS = {"theme": "dark"}
 
 def init_app() -> Flask:
 	"""Initialize the application"""
 	app = Flask(
 		"engineeringdiplomats[dot]org",
-		static_folder=os.environ["STATIC_FOLDER"],
-		template_folder=os.environ["TEMPLATE_FOLDER"],
+		static_folder=os.environ.get("STATIC_FOLDER"),
+		template_folder=os.environ.get("TEMPLATE_FOLDER"),
 	)
 	app.url_map.strict_slashes = False
-	app.config.from_object(__name__)
+	app.config.update(**app_config_kwargs)
 	app.logger = logger
 
 	oauth = OAuth(app)
 	db = MongoConnector(app)
-
+	mailer = StudentMailer(Mail(app))
+	
 	microsoft = oauth.remote_app("microsoft", **microsoft_oauth_config)
-	site_handler = SiteHandler(db, microsoft)
+	site_handler = SiteHandler(db, microsoft, mailer)
 	site_handler.get_token = microsoft.tokengetter(site_handler.get_token)
 	
 	app = apply_routes(app, site_handler)
-	app.secret_key = os.environ["SECRET_KEY"]
 
 	return app
 
