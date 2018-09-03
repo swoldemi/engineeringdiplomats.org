@@ -33,12 +33,14 @@ class SiteHandler(object):
 		A connection to relevant MongoDB collections.
 	oauth : OAuth.oauth.remote_app
 		An instance of an authenticated Outlook OAuth client.
+	mailer : flask.Mail
+		An instance of a configured mailing object.
 	"""
-	def __init__(self, db, oauth):
+	def __init__(self, db, oauth, mailer):
 		self.__url__ = "http://engineeringdiplomats.org"
 		self.db = db
 		self.oauth = oauth
-
+		self.mailer = mailer
 
 	def get_token(self):
 		"""Called by flask_oauthlib.client to retrieve current access token."""
@@ -56,7 +58,7 @@ class SiteHandler(object):
 			False if no authentication.
 		"""
 		if "access_token" in session:
-			if session["access_token"] is not None:
+			if session.get("access_token") is not None:
 				if "user" in session:
 					return True
 		return False
@@ -72,9 +74,10 @@ class SiteHandler(object):
 		Requires Azure API.
 		"""
 		if self.is_authorized:
-			# flash("You are already logged in.")
+			flash("You are already logged in.")
 			return redirect(url_for("index"))
-
+		elif request.method == "GET":
+			return render_template("login.jinja2")
 		session["state"] = str(uuid4())
 		return self.oauth.authorize(callback=url_for("authorize", _external=True), state=session["state"])
 
@@ -96,7 +99,7 @@ class SiteHandler(object):
 		if str(session["state"]) != str(request.args["state"]):
 			raise StateException("State returned to a redirect URL that does not match!")
 		response = self.oauth.authorized_response()
-		session["access_token"] = response["access_token"]
+		session["access_token"] = response.get("access_token")
 		
 		# Confirm user authentication by calling the Graph API
 		headers = {
@@ -104,7 +107,7 @@ class SiteHandler(object):
 			"return-client-request-id": "true",
 		}
 		graphdata = self.oauth.get("me", headers=headers).data
-		user = User(graphdata["displayName"], graphdata["mail"])
+		user = User(graphdata.get("displayName"), graphdata.get("mail"))
 		if user.email.lower() in self.db.get_diplomats():
 			user.is_diplomat = True
 		session["user"] = {"name": user.name, "email": user.email, "is_diplomat": user.is_diplomat}
@@ -113,11 +116,16 @@ class SiteHandler(object):
 
 
 	def logout(self) -> Union[redirect, HTMLBody]:
-		"""Logout view for authenticated users."""
+		"""Logout view for authenticated users.
+		
+		TODO: Catch exceptions here?
+		"""
 		if self.is_authorized:
 			session.clear()
-			return render_template("logout.jinja2")
-		return "You must login before logging out."
+			flash("Successfully logged out.")
+			return render_template("index.jinja2")
+		flash("You must login before logging out.")
+		return redirect(url_for("login"))
 
 
 	def questions(self) -> HTMLBody:
@@ -188,8 +196,7 @@ class SiteHandler(object):
 			if session["user"]["is_diplomat"]:
 				if request.method == "GET":
 					# Get all events from database
-					events = self.db.get_events()
-					return render_template("rsvp.jinja2", events=events)
+					return render_template("rsvp.jinja2", events=self.db.get_events())
 				print(dict(request.form))
 				# Extract selected times,
 				# Extract name and email
