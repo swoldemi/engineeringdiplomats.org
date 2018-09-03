@@ -64,11 +64,7 @@ class SiteHandler(object):
 
 	def index(self) -> HTMLBody:
 		"""View for home page."""
-		try:
-			user_data = session["user"]
-		except KeyError:
-			user_data = None
-		return render_template("index.jinja2", user_data=user_data)
+		return render_template("index.jinja2")
 
 
 	def login(self) -> redirect:
