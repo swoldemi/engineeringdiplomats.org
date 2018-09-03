@@ -1,0 +1,60 @@
+/* Manual CSS overrides for engineeringdiplomats.org */
+@import url('https://fonts.googleapis.com/css?family=Arbutus+Slab');
+
+* {
+    font-family: 'Arbutus Slab', serif;
+}
+
+body {
+    display: flex;
+    min-height: calc(100vh - 52px);
+    flex-direction: column;
+}
+
+footer {
+    flex: 1 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+.button.is-ttu-red {
+    background-color: #bd0d0d !important;
+}
+
+img {
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Remove borders */
+.button {
+    border: unset !important;
+}
+
+.tabs a,
+.tabs ul {
+    border-bottom-style: unset !important;
+    border-bottom-width: unset !important;
+}
+
+/* Color adjustments */
+.navbar-menu {
+    background-color: #0a0a0a !important;
+}
+
+.tabs li.is-active a {
+    border-bottom-color: #bd0d0d !important;
+    color: #bd0d0d !important;
+}
+
+.tabs li.is-active a:hover {
+    background-color: #0a0a0a !important;
+}
+
+a.has-text-white:focus,
+a.has-text-white:hover {
+    color: white !important;
+}
+
+a.navbar-item:hover {
+    background-color: #bd0d0d !important;
+}

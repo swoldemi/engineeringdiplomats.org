@@ -1,0 +1,49 @@
+    
+    <nav class="navbar is-black is-fixed-top">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ url_for('index') }}">
+                    Engineering Diplomats
+                </a>
+                <span class="navbar-burger burger" data-target="navbarMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="tabs is-right">
+                        <ul>
+                            <li class="{{'is-active' if request.url_rule.endpoint == 'index' }}">
+                                <a class="navbar-item has-text-white" href="{{ url_for('index') }}">Home</a>
+                            </li>
+                            <li class="{{'is-active' if request.url_rule.endpoint == 'ask' }}">
+                                <a class="navbar-item has-text-white" href="{{ url_for('ask') }}">Ask a Question</a>
+                            </li>
+                            <li class="{{'is-active' if request.url_rule.endpoint == 'resources' }}">
+                                <a class="navbar-item has-text-white" href="{{ url_for('resources') }}">Resources</a>
+                            </li>
+                            <span class="navbar-item">
+                                {% if "user" in session -%}
+                                <a class="button has-text-white is-ttu-red" href="{{ url_for('logout') }}">
+                                    <span class="icon">
+                                        <i class="fa fa-sign-out-alt"></i>
+                                    </span>
+                                    <span>Log out</span>
+                                </a>
+                                {%- else -%}
+                                <a class="button has-text-white is-ttu-red" href="{{ url_for('login') }}">
+                                    <span class="icon">
+                                        <i class="fa fa-sign-in-alt"></i>
+                                    </span>
+                                    <span>Log in</span>
+                                </a>
+                                {%- endif %}
+                            </span>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>

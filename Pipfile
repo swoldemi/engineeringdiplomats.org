@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+pymongo = "*"
+flask-login = "*"
+flask-wtf = "*"
+flask-oauthlib = "*"
+twilio = "*"
+gevent = "*"
+google-api-python-client = "*"
+"oauth2client" = "*"
+
+[dev-packages]
+codecov = "*"
+pytest-cov = "*"
+pytest-flask = "*"
+pytest-progress = "*"
+sphinx = "*"
+recommonmark = "*"
+
+[requires]
+python_version = "3.6"

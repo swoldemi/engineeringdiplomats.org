@@ -1,0 +1,21 @@
+
+version: "3.6"
+
+volumes:
+    mongostorage:
+
+services:
+  db:
+    container_name: mongodb
+    # This image supports authentication
+    image: alexpunct/mongo:3.4 
+    volumes:
+      - mongostorage:/data/db
+    ports:
+      - "${MONGO_PORT}:${MONGO_PORT}"
+    environment:
+      MONGODB_ADMIN_USER: ${MONGO_USERNAME}
+      MONGODB_ADMIN_PASS: ${MONGO_PASSWORD}
+      MONGODB_APPLICATION_DATABASE: ${MONGODB_APPLICATION_DATABASE}
+      MONGODB_APPLICATION_USER: ${MONGO_USERNAME}
+      MONGODB_APPLICATION_PASS: ${MONGO_PASSWORD}
