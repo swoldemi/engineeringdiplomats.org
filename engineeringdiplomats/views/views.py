@@ -10,6 +10,7 @@ from uuid import uuid4
 
 from flask import (
 	abort,
+	current_app,
 	flash,
 	redirect, 
 	request, 
@@ -111,7 +112,7 @@ class SiteHandler(object):
 		if user.email.lower() in self.db.get_diplomats():
 			user.is_diplomat = True
 		session["user"] = {"name": user.name, "email": user.email, "is_diplomat": user.is_diplomat}
-		flash(f"Welcome {user.name.split(',')[1]}")
+		flash(f"Successfully logged in. Hello {user.name.split(',')[1]}.")
 		return redirect(url_for("index"))
 
 
@@ -165,12 +166,17 @@ class SiteHandler(object):
 				)
 				self.db.insert_question(question_doc)
 				# Flash a success message
+				current_app.logger.info(f"Successfully submitted question {question_doc['question_id']}")
 				flash("Thanks for your question! You will receive an email response soon!")
-				return redirect(url_for("ask"))
-			if form.recaptcha.errors:
-				# Flash an error
+			elif form.recaptcha.errors:
+				# Flash a captcha error
+				current_app.logger.info("Caught recaptcha error.")
 				flash("Please complete the reCAPTCHA.")
-				return redirect(url_for("ask"))
+			else:
+				# Flash unknown error
+				current_app.logger.info("Caught unknown error.")
+				flash("Error.")
+			return redirect(url_for("ask"))
 		return "Please login to ask questions."
 
 
