@@ -39,6 +39,8 @@ def init_app() -> Flask:
 		template_folder=os.environ["TEMPLATE_FOLDER"],
 	)
 	app.url_map.strict_slashes = False
+	app.config.from_object(__name__)
+	app.logger = logger
 
 	oauth = OAuth(app)
 	db = MongoConnector(app)
