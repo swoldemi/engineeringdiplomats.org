@@ -13,6 +13,7 @@ twilio = "*"
 gevent = "*"
 google-api-python-client = "*"
 "oauth2client" = "*"
+flask-mail = "*"
 
 [dev-packages]
 codecov = "*"
