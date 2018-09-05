@@ -42,6 +42,7 @@ class SiteHandler(object):
 		self.oauth = oauth
 		self.mailer = mailer
 
+
 	def get_token(self):
 		"""Called by flask_oauthlib.client to retrieve current access token."""
 		return (session.get("access_token"), "")
@@ -54,7 +55,7 @@ class SiteHandler(object):
 		Returns
 		-------
 		bool
-			True if there is a authorized session.
+			True if there is an authorized session.
 			False if no authentication.
 		"""
 		if "access_token" in session:
@@ -107,9 +108,9 @@ class SiteHandler(object):
 			"return-client-request-id": "true",
 		}
 		graphdata = self.oauth.get("me", headers=headers).data
-		user = User(graphdata.get("displayName"), graphdata.get("mail"))
-		if user.email.lower() in self.db.get_diplomats():
-			user.is_diplomat = True
+		user = User(graphdata.get("displayName"), graphdata.get("mail").lower())
+		if user.email in self.db.get_diplomats():
+			user.is_diplomat = "True" # TODO: bool condition test
 		session["user"] = {"name": user.name, "email": user.email, "is_diplomat": user.is_diplomat}
 		flash(f"Successfully logged in. Hello {user.name.split(',')[1]}.")
 		return redirect(url_for("index"))
@@ -155,8 +156,6 @@ class SiteHandler(object):
 			if request.method == "GET":
 				return render_template(
 				"ask.jinja2", 
-				name=session["user"]["name"], 
-				email=session["user"]["email"],
 				form=form,
 			)
 			if form.validate_on_submit():

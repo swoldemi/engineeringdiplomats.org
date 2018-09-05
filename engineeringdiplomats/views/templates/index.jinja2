@@ -18,7 +18,7 @@
                 <div class="columns is-vcentered">
                     <div class="column is-5">
                         <figure class="image is-square">
-                            <img src="{{ url_for('static', filename='img/fall-2018-engineering-diplomats.jpg') }}" alt="Fall 2018 Engineering Diplomats">
+                            <img src="{{ url_for('static', filename='img/fall-2018-engineering-diplomats.jpg') }}" alt="Fall 2018 Engineering Diplomats" />
                         </figure>
                     </div>
                     <div class="column is-6 is-offset-1">
@@ -31,14 +31,14 @@
                         <h2 class="subtitle is-4">
                             The Texas Tech University WCOE Engineering Diplomats are dedicated to assiting
                             undergraduate engineering students fulfill their International Experience Requirement.
-                            <br/>
-                            <br/>
+                            <br />
+                            <br />
                             We have office hours Monday through Friday from 9:00 AM to 4:00 PM in the Engineering
                             Opporunities Center.
                         </h2>
                         <br/>
                         <p class="has-text-centered">
-                            <a class="button is-medium is-ttu-red has-text-white is-outlined">
+                            <a class="button is-medium is-ttu-red has-text-white is-outlined" href="{{ url_for('resources') }}">
                                 Learn more
                             </a>
                         </p>
@@ -47,6 +47,4 @@
             </div>
         </div>
     </section>
-
-index Login Data: {{ user_data.name }} {{ user_data.email }} {{ user_data.is_diplomat }}
 {%- endblock -%}
