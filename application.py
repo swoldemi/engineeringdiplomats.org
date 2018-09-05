@@ -8,10 +8,9 @@ from flask import Flask
 from flask_mail import Mail
 from flask_oauthlib.client import OAuth
 
-
-from engineeringdiplomats.mailers import StudentMailer
 from engineeringdiplomats.models import MongoConnector
 from engineeringdiplomats.routes import apply_routes
+from engineeringdiplomats.services import Mailer
 from engineeringdiplomats.settings import microsoft_oauth_config, app_config_kwargs
 from engineeringdiplomats.views import SiteHandler
 
@@ -44,7 +43,7 @@ def init_app() -> Flask:
 
 	oauth = OAuth(app)
 	db = MongoConnector(app)
-	mailer = StudentMailer(Mail(app))
+	mailer = Mailer(Mail(app))
 	
 	microsoft = oauth.remote_app("microsoft", **microsoft_oauth_config)
 	site_handler = SiteHandler(db, microsoft, mailer)

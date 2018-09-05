@@ -85,17 +85,14 @@ class SiteHandler(object):
 
 	def authorize(self) -> redirect:
 		"""Callback for Outlook's OAuth2 validation. 
-		Only allow authorized Engineering Diplomats to login.
 		
 		Raises
 		------
 		StateException
 		"""
 		if self.is_authorized:
-			#print("You are already logged in.")
-			#flash("You are already logged in.")
-			#return redirect(url_for("index"))
-			return "You are already logged in."
+			flash("You are already logged in.")
+			return redirect(url_for("index"))
 
 		if str(session["state"]) != str(request.args["state"]):
 			raise StateException("State returned to a redirect URL that does not match!")
@@ -132,7 +129,7 @@ class SiteHandler(object):
 	def questions(self) -> HTMLBody:
 		"""View for authorized Diplomats to view posted questions."""
 		if self.is_authorized:
-			if session["user"]["is_diplomat"]:
+			if session["user"]["is_diplomat"] == "True":
 				if request.method == "GET":
 					return render_template("questions.jinja2", question_list=self.db.get_questions())
 				# 1. Get the question id
@@ -168,19 +165,25 @@ class SiteHandler(object):
 					question=form.question.data,
 				)
 				self.db.insert_question(question_doc)
-				# Flash a success message
+				
+				# Send a notification email to both the student and the President
+				self.mailer.send_confirmation(question_doc)
+				self.mailer.send_notification(question_doc)
+
+				# Flash and log a success message
 				current_app.logger.info(f"Successfully submitted question {question_doc['question_id']}")
 				flash("Thanks for your question! You will receive an email response soon!")
 			elif form.recaptcha.errors:
 				# Flash a captcha error
 				current_app.logger.info("Caught recaptcha error.")
 				flash("Please complete the reCAPTCHA.")
-			else:
+			else: # pragma: no cover
 				# Flash unknown error
 				current_app.logger.info("Caught unknown error.")
 				flash("Error.")
 			return redirect(url_for("ask"))
-		return "Please login to ask questions."
+		flash("Please login to ask questions.")
+		return redirect(url_for("login"))
 
 
 	def events(self) -> [redirect, HTMLBody]:

@@ -9,7 +9,7 @@ from functools import wraps
 from threading import Thread
 from typing import Callable
 
-from settings import emails_log_file
+from .settings import emails_log_file
 
 def thread_task(f: Callable) -> Callable:
 	"""Defines a wrapper that will decorate a function.
