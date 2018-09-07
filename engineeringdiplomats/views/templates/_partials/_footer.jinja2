@@ -2,6 +2,13 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
+                {% if "user" in session %}
+                Currently logged in as: {{ session.user.name }} | {{ session.user.email }} | {% if session.user.is_diplomat -%} <i class="fas fa-globe"></i> {%- else -%} <i class="fas fa-user"></i> {%- endif -%}
+                {%- else -%}
+                You are not logged in.
+                {% endif %}
+                <br />
+                <br />
                 <strong>Copyright &copy; 2018 - 2019</strong> Texas Tech University WCOE Engineering Diplomats
                 <br />
                 <br />
