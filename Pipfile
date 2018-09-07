@@ -14,6 +14,7 @@ gevent = "*"
 google-api-python-client = "*"
 "oauth2client" = "*"
 flask-mail = "*"
+waitress = "*"
 
 [dev-packages]
 codecov = "*"
