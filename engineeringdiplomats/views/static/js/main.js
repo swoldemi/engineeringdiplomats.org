@@ -6,5 +6,4 @@
         burger.classList.toggle('is-active');
         menu.classList.toggle('is-active');
     });
-    var carousels = bulmaCarousel.attach();
 })();
