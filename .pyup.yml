@@ -1,0 +1,5 @@
+update: all
+label_prs: dependency update
+schedule: "every week on wednesday"
+branch_prefix: pyup-bot/
+assignees: simon
