@@ -1,18 +1,6 @@
-collectors:
-- type: python-pip
-  path: requirements.txt
-  actors:
-  - type: repo-issue
-    versions: "Y.Y.Y"
-    settings:
-      github_labels:
-      - dependency update
-      - python
+version: 2
+dependencies:
 - type: dockerfile
   path: Dockerfile
-  actors:
-  - type: repo-issue
-    settings:
-      github_labels:
-      - dependency update
-      - dockerfile
+- type: python
+  path: requirements.txt
