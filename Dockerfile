@@ -1,4 +1,4 @@
-FROM python:3.6.6-alpine
+FROM python:3.7
 ADD . /engineeringdiplomats.org
 WORKDIR /engineeringdiplomats.org
 RUN python -m pip install pipenv
