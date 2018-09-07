@@ -8,11 +8,11 @@ from flask import Flask
 from flask_mail import Mail
 from flask_oauthlib.client import OAuth
 
-from engineeringdiplomats.models import MongoConnector
-from engineeringdiplomats.routes import apply_routes
-from engineeringdiplomats.services import Mailer
-from engineeringdiplomats.settings import microsoft_oauth_config, app_config_kwargs
-from engineeringdiplomats.views import SiteHandler
+from source.models import MongoConnector
+from source.routes import apply_routes
+from source.services import Mailer
+from source.settings import microsoft_oauth_config, app_config_kwargs
+from source.views import SiteHandler
 
 
 # Logging setup

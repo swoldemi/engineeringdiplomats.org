@@ -25,7 +25,7 @@ HTMLBody = TypeVar("HTMLBody", str, str, str)
 
 
 class SiteHandler(object):
-	"""Views for engineeringdiplomats.com.
+	"""Views for engineeringdiplomats.org.
 
 	Attributes
 	----------
