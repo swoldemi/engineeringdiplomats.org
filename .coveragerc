@@ -1,0 +1,17 @@
+# .coveragerc to control coverage.py
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+	send_text_message
+omit =
+	*/production/*
+
+[run]
+omit =
+	*/production/*
+
+[html]
+directory = docs/coverage_report
