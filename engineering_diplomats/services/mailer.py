@@ -7,7 +7,7 @@ import os
 from flask import current_app, render_template
 from flask_mail import Message
 
-from ..decorators import redirect_email_stdout
+from engineering_diplomats.decorators import redirect_email_stdout
 
 
 class Mailer(object):

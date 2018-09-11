@@ -6,6 +6,7 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, validators
 
+
 class StudentQueryForm(FlaskForm):
     """Encapsulation of a form for questions asked by the student."""
     question = StringField("question", [validators.DataRequired()])

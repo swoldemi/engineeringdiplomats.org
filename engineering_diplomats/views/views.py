@@ -19,7 +19,7 @@ from flask import (
 	url_for,
 )
 
-from ..models import User, StudentQueryForm, QuestionDocument
+from engineering_diplomats.models import User, DiplomatAnswerForm, StudentQueryForm
 
 HTMLBody = TypeVar("HTMLBody", str, str, str)
 
