@@ -1,3 +1,5 @@
+[![Updates](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/shield.svg)](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/)
+
 ## [engineeringdiplomats.org](http://engineeringdiplomats.org)
 
 A web application for Texas Tech University's Engineering Diplomats.
