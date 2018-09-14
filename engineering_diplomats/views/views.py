@@ -84,18 +84,16 @@ class SiteHandler(object):
 
 
 	def authorize(self) -> redirect:
-		"""Callback for Outlook's OAuth2 validation. 
-		
-		Raises
-		------
-		StateException
-		"""
-		if self.is_authorized:
+		"""Callback for Outlook's OAuth2 validation."""
+		request_state = request.args.get("state", default=None)
+		session_state = session.get("state", default=None)
+		if (request_state != session_state) or (request_state is None):
+			abort(404)
+			
+		elif self.is_authorized:
 			flash("You are already logged in.")
 			return redirect(url_for("index"))
 
-		if str(session["state"]) != str(request.args["state"]):
-			raise StateException("State returned to a redirect URL that does not match!")
 		response = self.oauth.authorized_response()
 		session["access_token"] = response.get("access_token")
 		
@@ -191,8 +189,8 @@ class SiteHandler(object):
 
 		Notes
 		------
-		If a user is an Diplomat: They have u+rw- permissions.
-		If a user is not an Diplomats: They have u+r-- permissions.
+		If a user is an Diplomat: They have read-write permissions.
+		If a user is not an Diplomats: They have read permissions.
 		"""
 		if self.is_authorized:
 			if session["user"]["is_diplomat"]:
@@ -210,8 +208,3 @@ class SiteHandler(object):
 	def resources(self) -> HTMLBody:
 		"""View for resources page."""
 		return render_template("resources.jinja2")
-
-
-class StateException(Exception):
-	"""Raised when session state and redirect state are tampered."""
-	pass
