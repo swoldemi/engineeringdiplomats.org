@@ -17,8 +17,7 @@ flask-mail = "*"
 waitress = "*"
 
 [dev-packages]
-codecov = "*"
-pytest-cov = "*"
+python-coveralls = "*"
 pytest-flask = "*"
 pytest-progress = "*"
 sphinx = "*"
