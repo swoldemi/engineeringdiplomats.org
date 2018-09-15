@@ -48,7 +48,7 @@ class SiteHandler(object):
 		self.mailer = mailer
 
 
-	def get_token(self):
+	def get_token(self): # pragma: no cover
 		"""Called by flask_oauthlib.client to retrieve current access token."""
 		return (session.get("access_token"), "")
 
