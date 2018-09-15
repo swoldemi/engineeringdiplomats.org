@@ -29,6 +29,10 @@ class TestSuiteFlask(object):
 		----------
 		client : Client
 			An instance of werkzeug.test.Client
+
+		app : flask.Flask
+            Instance of the application injected as a test fixture
+            by pytest.
 		"""
 		assert client.get(url_for("index")).status_code == OK
 		assert client.get(url_for("resources")).status_code == OK
