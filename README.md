@@ -1,6 +1,7 @@
 [![Updates](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/shield.svg)](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/)
 [![Coverage Status](https://coveralls.io/repos/github/swoldemi/engineeringdiplomats.org/badge.svg)](https://coveralls.io/github/swoldemi/engineeringdiplomats.org)
-[![Maintainability](https://api.codeclimate.com/v1/badges/02c0c324b1970d0ab448/maintainability)](https://codeclimate.com/github/swoldemi/engineeringdiplomats.org/maintainab
+[![Maintainability](https://api.codeclimate.com/v1/badges/02c0c324b1970d0ab448/maintainability)](https://codeclimate.com/github/swoldemi/engineeringdiplomats.org/maintainability)
+[![Gitter chat](https://badges.gitter.im/swoldemi/engineeringdiplomats.org.png)](https://gitter.im/swoldemi/engineeringdiplomats.org)
 ## [engineeringdiplomats.org](http://engineeringdiplomats.org)
 
 A web application for Texas Tech University's Engineering Diplomats.
