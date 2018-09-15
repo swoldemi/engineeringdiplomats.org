@@ -17,11 +17,12 @@ flask-mail = "*"
 waitress = "*"
 
 [dev-packages]
-python-coveralls = "*"
+pytest-cov = "*"
 pytest-flask = "*"
 pytest-progress = "*"
 sphinx = "*"
 recommonmark = "*"
+coveralls = "*"
 
 [requires]
 python_version = "3.7"
