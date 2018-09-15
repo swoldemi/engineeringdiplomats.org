@@ -2,7 +2,6 @@
 
 """Front-end form models."""
 
-
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, validators
 
@@ -18,4 +17,3 @@ class StudentQueryForm(FlaskForm):
 class DiplomatAnswerForm(FlaskForm):
     """Encapsulation of a form for answers provided by Engineering Diplomats."""
     pass
-

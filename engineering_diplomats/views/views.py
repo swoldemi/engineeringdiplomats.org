@@ -19,7 +19,12 @@ from flask import (
 	url_for,
 )
 
-from engineering_diplomats.models import User, DiplomatAnswerForm, StudentQueryForm
+from engineering_diplomats.models import (
+	User, 
+	DiplomatAnswerForm,
+	QuestionDocument,
+	StudentQueryForm,
+)
 
 HTMLBody = TypeVar("HTMLBody", str, str, str)
 
@@ -136,7 +141,10 @@ class SiteHandler(object):
 				# 4. Create an email response for the question
 				# 5. Send the response and delete the question
 				print(dict(request.form))
-		#return redirect(url_form("login"))
+			flash("Only Engineering Diplomats may view the list of questions.")
+			return redirect(url_for("index"))
+		flash("Please login first.")
+		return redirect(url_for("login"))
 
 
 	def ask(self) -> Union[redirect, HTMLBody]:
