@@ -8,9 +8,8 @@ from flask import Flask
 from flask_mail import Mail
 from flask_oauthlib.client import OAuth
 
-from engineering_diplomats.controllers.db import MongoConnector
+from engineering_diplomats.controllers import Mailer, MongoConnector
 from engineering_diplomats.routes import apply_routes
-from engineering_diplomats.services.mailer import Mailer
 from engineering_diplomats.settings import microsoft_oauth_config, app_config_kwargs
 from engineering_diplomats.views.views import SiteHandler
 

@@ -19,13 +19,9 @@ class Mailer(object):
     mailer : flask_mail.Mail
         An instance of flask_mail.Mail
     """
-    _instance = None
     def __init__(self, mailer):
-        if Mailer._instance is None:
-            Mailer._instance = self
-            self.mailer = mailer
-        else:
-            raise Exception("An instance of the application's mailer already exists.")
+        self.mailer = mailer
+
 
 
     @redirect_email_stdout
