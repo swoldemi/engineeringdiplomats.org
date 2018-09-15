@@ -47,6 +47,7 @@ def init_app() -> Flask:
 	microsoft = oauth.remote_app("microsoft", **microsoft_oauth_config)
 	site_handler = SiteHandler(db, microsoft, mailer)
 	site_handler.get_token = microsoft.tokengetter(site_handler.get_token)
+	setattr(app, "site_handler", site_handler)
 	
 	app = apply_routes(app, site_handler)
 
