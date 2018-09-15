@@ -2,11 +2,10 @@
 
 import os
 import sys
-sys.path.insert(1, os.path.join(sys.path[0], ".."))
 
 import pytest
 
-from application import init_app
+from engineering_diplomats.main import init_app
 
 @pytest.fixture
 def app():
