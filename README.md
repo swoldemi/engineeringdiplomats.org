@@ -1,5 +1,5 @@
 [![Updates](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/shield.svg)](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/)
-
+[![Coverage Status](https://coveralls.io/repos/github/swoldemi/engineeringdiplomats.org/badge.svg)](https://coveralls.io/github/swoldemi/engineeringdiplomats.org)
 ## [engineeringdiplomats.org](http://engineeringdiplomats.org)
 
 A web application for Texas Tech University's Engineering Diplomats.
