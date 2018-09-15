@@ -5,17 +5,21 @@ import os
 
 from typing import List
 
-from flask import current_app
+from bson.objectid import ObjectId
 from pymongo import MongoClient
+from pymongo.cursor import CursorType
 from pymongo.errors import ExecutionTimeout, OperationFailure, ServerSelectionTimeoutError
 
 from engineering_diplomats.models import QuestionDocument
+
 
 class MongoConnector(object):
 	"""Encapsulates a connection to MongoDB.
 
 	Attributes
 	-----------
+	app : flask.Flask
+		equivalent to flask.current_app
 	logger : logging.Logger
 		Logger for database exceptions
 	client : pymongo.MongoClient
@@ -26,12 +30,13 @@ class MongoConnector(object):
 		Database collection for submitted questions
 	"""
 	def __init__(self, app):
+		self.app = app
 		self.logger = logging.getLogger(__name__)
 		self.errors = (ExecutionTimeout, OperationFailure, ServerSelectionTimeoutError)
 		try:
 			url = f"mongodb://{os.environ['MONGO_USERNAME']}:{os.environ['MONGO_PASSWORD']}@{os.environ['MONGO_HOST']}:{os.environ['MONGO_PORT']}/"
 			self.client = MongoClient(url)
-		except self.errors as e:
+		except self.errors as e: # pragma: no cover
 			self.logger.exception(e)
 			raise
 		
@@ -47,36 +52,68 @@ class MongoConnector(object):
 		List[str]
 			List of all emails
 		"""
-		with current_app.app_context():
+		with self.app.app_context():
 			try:
 				return self.diplomats_collection.find({})[0]["diplomat_emails"]
-			except self.errors as e:
+			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
 	
 
-	def insert_question(self, data: QuestionDocument) -> None:
+	def insert_question(self, data: QuestionDocument) -> ObjectId:
 		"""Inserts an inquiry into the database.
 		
 		Parameters
 		-----------
 		data : QuestionDocument
 			The question and metadata to be inserted into the document
+
+		Returns
+		-------
+		bson.objectId.ObjectId
+			The ObjectId of the document that was just created.
 		"""
-		with current_app.app_context():
+		with self.app.app_context():
 			try:
-				assert self.questions_collection.insert_one(data).inserted_id
-			except self.errors + (AssertionError,) as e:
+				return self.questions_collection.insert_one(data).inserted_id
+			except self.errors + (AssertionError,) as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
 	
 
-	def get_questions(self) -> List[dict]:
-		"""Get all of the unanswered questions that exist in the database."""
-		pass
+	def get_questions(self) -> CursorType:
+		"""Get all of the unanswered questions that exist in the database.
+		
+		Returns
+		--------
+		pymongo.cursor.Cursor, CursorType
+			A cursor for the collection which contains all of the question documents.
+		"""
+		with self.app.app_context():
+			try:
+				return self.questions_collection.find({})
+			except self.errors + (AssertionError,) as e: # pragma: no cover
+				self.logger.exception(e)
+				raise
 	
 
-	def remove_question(self, id) -> None:
-		"""Remove a question that has been answered."""
-		pass
+	def remove_question(self, id) -> bool:
+		"""Remove a question that has been answered.
+		
+		Parameters
+		----------
+		id : uuid4
+			The question_id of the question to be removed
+
+		Returns
+		-------
+		pymongo.results.DeleteResult.ackacknowledged, bool 
+			Database acknowledgement that the document was deleted. 
+		"""
+		with self.app.app_context():
+			try:
+				return self.questions_collection.delete_one({"question_id": id}).acknowledged
+			except self.errors + (AssertionError,) as e: # pragma: no cover
+				self.logger.exception(e)
+				raise
 
