@@ -76,7 +76,7 @@ class MongoConnector(object):
 		with self.app.app_context():
 			try:
 				return self.questions_collection.insert_one(data).inserted_id
-			except self.errors + (AssertionError,) as e: # pragma: no cover
+			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
 	
@@ -92,7 +92,7 @@ class MongoConnector(object):
 		with self.app.app_context():
 			try:
 				return self.questions_collection.find({})
-			except self.errors + (AssertionError,) as e: # pragma: no cover
+			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
 	
@@ -113,7 +113,7 @@ class MongoConnector(object):
 		with self.app.app_context():
 			try:
 				return self.questions_collection.delete_one({"question_id": id}).acknowledged
-			except self.errors + (AssertionError,) as e: # pragma: no cover
+			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
 
