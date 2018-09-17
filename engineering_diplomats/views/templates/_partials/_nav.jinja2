@@ -13,35 +13,30 @@
             </div>
             <div id="navbarMenu" class="navbar-menu">
                 <div class="navbar-end">
-                    <div class="tabs is-right">
-                        <ul>
-                            <li class="{{'is-active' if request.url_rule.endpoint == 'index' }}">
-                                <a class="navbar-item has-text-white" href="{{ url_for('index') }}">Home</a>
-                            </li>
-                            <li class="{{'is-active' if request.url_rule.endpoint == 'ask' }}">
-                                <a class="navbar-item has-text-white" href="{{ url_for('ask') }}">Ask a Question</a>
-                            </li>
-                            <li class="{{'is-active' if request.url_rule.endpoint == 'resources' }}">
-                                <a class="navbar-item has-text-white" href="{{ url_for('resources') }}">Resources</a>
-                            </li>
-                            <span class="navbar-item">
-                                {% if "user" in session -%}
-                                <a class="button has-text-white is-ttu-red" href="{{ url_for('logout') }}">
-                                    <span class="icon">
-                                        <i class="fa fa-sign-out-alt"></i>
-                                    </span>
-                                    <span>Log out</span>
-                                </a>
-                                {%- else -%}
-                                <a class="button has-text-white is-ttu-red" href="{{ url_for('login') }}">
-                                    <span class="icon">
-                                        <i class="fa fa-sign-in-alt"></i>
-                                    </span>
-                                    <span>Log in</span>
-                                </a>
-                                {%- endif %}
+                    <div class="buttons">
+                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'index' }}"
+                            href="{{ url_for('index') }}">Home</a>
+                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'ask' }}"
+                            href="{{ url_for('ask') }}">Ask a Question</a>
+                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'resources' }}"
+                            href="{{ url_for('resources') }}">Resources</a>
+                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'events' }}"
+                            href="{{ url_for('events') }}">Events</a>
+                        {% if "user" in session -%}
+                        <a class="navbar-item button has-text-white is-ttu-red" href="{{ url_for('logout') }}">
+                            <span class="icon">
+                                <i class="fa fa-sign-out-alt"></i>
                             </span>
-                        </ul>
+                            <span>Log out</span>
+                        </a>
+                        {%- else -%}
+                        <a class="navbar-item button has-text-white is-ttu-red" href="{{ url_for('login') }}">
+                            <span class="icon">
+                                <i class="fa fa-sign-in-alt"></i>
+                            </span>
+                            <span>Log in</span>
+                        </a>
+                        {%- endif %}
                     </div>
                 </div>
             </div>
