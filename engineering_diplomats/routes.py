@@ -19,5 +19,6 @@ def apply_routes(app, handler) -> object:
     app.add_url_rule("/login", "login", handler.login, methods=methods)
     app.add_url_rule("/questions", "questions", handler.questions, methods=methods)
     app.add_url_rule("/ask", "ask", handler.ask, methods=methods)
+    app.add_url_rule("/events", "events", handler.events, methods=methods)
     
     return app
