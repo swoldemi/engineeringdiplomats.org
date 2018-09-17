@@ -32,9 +32,11 @@
                 <div class="card is-shady">
                     <div class="card-content">
                         <div class="content">
-                            <h4> {{ eventsl[x].0 }} </h4>
-                            <p>Browse TTU Study Abroad programs.</p>
+                            <h4> {{ eventsl[x].0 }}</h4>
+                            <p>Time: {{ eventsl[x].1 }}</p>
+                            <p>Location: {{ eventsl[x].2 }}</p>
                             {% if is_diplomat %}
+                            <p>Diplomats Attending: {{ eventsl[x].3 }}</p>
                             <a class="button is-link is-ttu-red" href="">RSVP</a>
                             {%- endif %}
                         </div>
@@ -51,9 +53,11 @@
                 <div class="card is-shady">
                     <div class="card-content">
                         <div class="content">
-                            <h4> {{ eventsr[x].0 }} </h4>
-                            <p>Browse TTU Study Abroad programs.</p>
+                            <h4> {{ eventsr[x].0 }}</h4>
+                            <p>Time: {{ eventsr[x].1 }}</p>
+                            <p>Location: {{ eventsr[x].2 }}</p>
                             {% if is_diplomat %}
+                            <p>Diplomats Attending: {{ eventsr[x].3 }}</p>
                             <a class="button is-link is-ttu-red" href="">RSVP</a>
                             {%- endif %}
                         </div>
