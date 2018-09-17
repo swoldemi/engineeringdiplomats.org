@@ -6,7 +6,7 @@ import threading
 
 from time import sleep
 
-from engineering_diplomats.utilities import get_events, send_text_message
+from engineering_diplomats.utilities import get_events, prepare_events, send_text_message
 
 import pytest
 
@@ -33,6 +33,15 @@ class TestSuiteOther(object):
         """Get all events from 
         ttuengineeringdiplomats@gmail.com's Google Calendar."""
         all_events = get_events()
-        for event in all_events.keys():
-            print(event)
+        for event in all_events:
+            assert len(event) is 4
         
+
+    def test_prepare_events(self):
+        
+        prepared_events = prepare_events(get_events())
+        assert len(prepared_events) is 2
+        
+        eventsl, eventsr = prepared_events
+        assert len(eventsl) is len(eventsr)
+        assert len(eventsl) + len(eventsr)  >= len(get_events())
