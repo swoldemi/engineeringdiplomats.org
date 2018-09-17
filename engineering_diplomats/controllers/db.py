@@ -34,8 +34,9 @@ class MongoConnector(object):
 		self.logger = logging.getLogger(__name__)
 		self.errors = (ExecutionTimeout, OperationFailure, ServerSelectionTimeoutError)
 		try:
-			url = f"mongodb://{os.environ['MONGO_USERNAME']}:{os.environ['MONGO_PASSWORD']}@{os.environ['MONGO_HOST']}:{os.environ['MONGO_PORT']}/"
-			self.client = MongoClient(url)
+			uri = f"mongodb+srv://{os.environ.get('MONGO_USERNAME')}:{os.environ.get('MONGO_PASSWORD')}"
+			uri = f"{uri}@diplomats-cluster0-o6453.mongodb.net/diplomats?retryWrites=true"
+			self.client = MongoClient(uri)
 		except self.errors as e: # pragma: no cover
 			self.logger.exception(e)
 			raise
