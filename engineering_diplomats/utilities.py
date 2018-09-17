@@ -99,7 +99,6 @@ def prepare_events(events: List[List[str]]) -> Tuple[List[List[str]], List[List[
 	Tuple[List[List[str]], List[List[str]]]
 		Unpackable tuple of the two event groups of equal length.
 	"""
-
 	eventsl, eventsr = array_split(events, 2)
 	eventsl = eventsl.tolist()
 	eventsr = eventsr.tolist()
@@ -112,9 +111,8 @@ def prepare_events(events: List[List[str]]) -> Tuple[List[List[str]], List[List[
 	return eventsl, eventsr
 
 
-def update_event(event: dict) -> None:
+def update_event(event: List[str]) -> None:
 	"""Update the RSVP of an event.
-
 
 	Parameters
 	----------
