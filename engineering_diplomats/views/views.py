@@ -26,6 +26,8 @@ from engineering_diplomats.models import (
 	StudentQueryForm,
 )
 
+from engineering_diplomats.utilities import get_events, prepare_events
+
 HTMLBody = TypeVar("HTMLBody", str, str, str)
 
 
@@ -130,7 +132,12 @@ class SiteHandler(object):
 
 
 	def questions(self) -> HTMLBody:
-		"""View for authorized Diplomats to view posted questions."""
+		"""View for authorized Diplomats to view posted questions.
+		
+		Notes
+		------
+		Only Engineering Diplomats may view this page.
+		"""
 		if self.is_authorized:
 			if session["user"]["is_diplomat"] == "True":
 				if request.method == "GET":
@@ -200,17 +207,9 @@ class SiteHandler(object):
 		If a user is an Diplomat: They have read-write permissions.
 		If a user is not an Diplomats: They have read permissions.
 		"""
-		if self.is_authorized:
-			if session["user"]["is_diplomat"]:
-				if request.method == "GET":
-					# Get all events from database
-					return render_template("rsvp.jinja2", events=self.db.get_events())
-				print(dict(request.form))
-				# Extract selected times,
-				# Extract name and email
-				# Extract selected event ID
-				return redirect(url_for("events"))
-		return redirect(url_for("index"))
+		# Get all events and split into 2 groups
+		eventsl, eventsr = prepare_events(get_events())
+		return render_template("events.jinja2", eventsl=eventsl, eventsr=eventsr)
 
 
 	def resources(self) -> HTMLBody:
