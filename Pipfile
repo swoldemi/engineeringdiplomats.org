@@ -15,6 +15,7 @@ google-api-python-client = "*"
 "oauth2client" = "*"
 flask-mail = "*"
 waitress = "*"
+numpy = "*"
 
 [dev-packages]
 pytest-cov = "*"
