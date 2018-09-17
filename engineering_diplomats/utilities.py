@@ -82,3 +82,41 @@ def get_events() -> Union[List[List], List[None]]:
 			entry[3] = [e["email"] for e in entry[3]]
 		all_events.append(entry)
 	return all_events
+
+
+def prepare_events(events: List[List[str]]) -> Tuple[List[List[str]], List[List[str]]]:
+	"""Split events into 2 equally sized groups.
+
+	Parameters
+	----------
+	events : List[List[str]]:
+		The events retrieved from the get_events utility function.
+	
+	Returns
+	-------
+	Tuple[List[List[str]], List[List[str]]]
+		Unpackable tuple of the two event groups of equal length.
+	"""
+
+	eventsl, eventsr = array_split(events, 2)
+	eventsl = eventsl.tolist()
+	eventsr = eventsr.tolist()
+	if len(eventsl) > len(eventsr):
+		for x in range(len(eventsl) - len(eventsr)):
+			eventsr.append([None, None, None, None])
+	elif len(eventsl) < len(eventsr):
+		for x in range( len(eventsr) - len(eventsl)):
+			eventsl.append([None, None, None, None])
+	return eventsl, eventsr
+
+
+def update_event(event: dict) -> None:
+	"""Update the RSVP of an event.
+
+
+	Parameters
+	----------
+	event : dict
+		The event to be updated.
+	"""
+	pass
