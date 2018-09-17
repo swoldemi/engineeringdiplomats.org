@@ -5,14 +5,16 @@
 import os
 
 from datetime import datetime
-from typing import Dict
+from typing import List, Tuple, Union
 
 from googleapiclient.discovery import build
 from httplib2 import Http
+from numpy import array_split
 from oauth2client import file, client, tools
 from twilio.rest import Client
 
 from engineering_diplomats.decorators import thread_task
+
 
 @thread_task
 def send_text_message(message: str) -> None:
