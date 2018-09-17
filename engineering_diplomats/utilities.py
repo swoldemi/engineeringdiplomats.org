@@ -35,14 +35,28 @@ def send_text_message(message: str) -> None:
 	)
 
 
-def get_events() -> Dict[str, list]:
+def get_events() -> Union[List[List], List[None]]:
 	"""Get all events from my Google Calendar.
 
 	Returns
 	-------
-	Dict[list]
-		Events as keys w/ list of time and location as values.
+	Union[List[List], List[None]]
+		List[List]
+			A list of event entries indexed as follows:
+			- 0 : str
+			  - The name of the events.
+			- 1 : str
+			  - The start time of the event.
+			- 2 : str 
+			  - The location of the event.
+			- 3 : List[str] 
+			  - The diplomats attending the event.
+		List[None]:
+			If there are no events in the Google Calendar.
 
+	Notes
+	------
+	Attendes denotes that diplomats that have RSVP'd for an event
 	TODO: Turn this function into a generator
 	"""
 	store = file.Storage("token.json")
@@ -54,14 +68,17 @@ def get_events() -> Dict[str, list]:
 
 	now = datetime.utcnow().isoformat() + "Z" 
 	events_result = service.events().list(
-		calendarId='primary', 
+		calendarId="primary", 
 		timeMin=now,
 		maxResults=100, 
 		singleEvents=True,
-		orderBy='startTime').execute()
+		orderBy="startTime").execute()
 	events = events_result.get("items", [])
-	all_events = {}
+	all_events = []
 	for event in events:
-		start = event['start'].get("dateTime", event["start"].get("date"))
-		all_events[event["summary"]] = [start, event["location"]]
+		start_time = event["start"].get("dateTime", event["start"].get("date"))
+		entry = [event["summary"], start_time, event["location"], event.get("attendees", None)]
+		if entry[3] is not None:
+			entry[3] = [e["email"] for e in entry[3]]
+		all_events.append(entry)
 	return all_events
