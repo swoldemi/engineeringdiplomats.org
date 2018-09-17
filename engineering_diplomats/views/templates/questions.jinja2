@@ -1,4 +1,44 @@
 {% extends 'layout.jinja2' -%}
 {% block body -%}
-questions
-{%- endblock %}
+    {% with messages = get_flashed_messages() -%}
+    {% if messages %}
+    <div class="box cta">
+        <p class="has-text-centered">
+            {% for message in messages -%}
+            <div class="notification is-dark">{{ message }}</div>
+            {% endfor -%}
+        </p>
+    </div>
+    {%- endif -%}
+    {%- endwith %}
+    <div class="box cta">
+        <p class="has-text-centered">
+            Questions asked by students.
+        </p>
+    </div>
+    <section class="container">
+        {% for question in questions %}
+        <div class="box">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>{{ question.submitters_name }}</strong> <small>{{ question.submitters_email }} </small> <small>{{ question.submission_date }}</small>
+                            <br>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
+                            fringilla egestas. Nullam condimentum luctus turpis.
+                        </p>
+                    </div>
+                    <nav class="level is-mobile">
+                        <div class="level-left">
+                            <a class="level-item" aria-label="answer">
+                                
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </section>
+{%- endblock -%}
