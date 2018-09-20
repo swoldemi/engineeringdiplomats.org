@@ -4,7 +4,7 @@ init:
 	pipenv install --dev
 
 run:
-	python application.py
+	python engineering_diplomats/main.py
 
 test:
 	pipenv run py.test --show-progress --cov=./
