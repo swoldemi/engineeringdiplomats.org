@@ -90,29 +90,56 @@ class SiteHandler(object):
 		return self.oauth.authorize(callback=url_for("authorize", _external=True), state=session["state"])
 
 
-	def authorize(self) -> redirect:
-		"""Callback for Outlook's OAuth2 validation."""
+	def authorize(self) -> Union[redirect, abort]:
+		"""Callback for Outlook's OAuth2 validation.
+		
+		Returns
+		-------
+		Union[redirect, abort]
+			redirect
+				A redirect to the home page if the user has successfully logged in.
+			abort
+				A 404 status code if states are invalid.
+		"""
+		# Extract states
 		request_state = request.args.get("state", default=None)
 		session_state = session.get("state", default=None)
+		
+		# Compare states for validity
 		if (request_state != session_state) or (request_state is None):
-			abort(404)
-			
+			abort(404)	
 		elif self.is_authorized:
 			flash("You are already logged in.")
 			return redirect(url_for("index"))
 
-		response = self.oauth.authorized_response()
+		# If not mocking the API
+		if "MOCK" not in os.environ: # pragma: no cover
+			response = self.oauth.authorized_response()
+		else: 
+			response = {
+				"access_token": uuid4().hex,
+				"email": request.args.get("email"),
+				"name": request.args.get("name"),	
+			}
 		session["access_token"] = response.get("access_token")
 		
 		# Confirm user authentication by calling the Graph API
+		# Create a mock user if running TestSuiteFlask
 		headers = {
 			"client-request-id": str(uuid4()),
 			"return-client-request-id": "true",
 		}
 		graphdata = self.oauth.get("me", headers=headers).data
-		user = User(graphdata.get("displayName"), graphdata.get("mail").lower())
+		try:
+			user = User(graphdata.get("displayName"), graphdata.get("mail").lower())
+		except AttributeError:
+			user = User(response.get("name"), response.get("email"))
+
+		# Check if the user that is logging in is an Engineering Diplomat
 		if user.email in self.db.get_diplomats():
 			user.is_diplomat = "True" # TODO: bool condition test
+		
+		# Define the rest of the session user
 		session["user"] = {"name": user.name, "email": user.email, "is_diplomat": user.is_diplomat}
 		flash(f"Successfully logged in. Hello {user.name.split(',')[1]}.")
 		return redirect(url_for("index"))
@@ -126,7 +153,7 @@ class SiteHandler(object):
 		if self.is_authorized:
 			session.clear()
 			flash("Successfully logged out.")
-			return render_template("index.jinja2")
+			return redirect(url_for("index"))
 		flash("You must login before logging out.")
 		return redirect(url_for("login"))
 
@@ -186,7 +213,7 @@ class SiteHandler(object):
 				# Flash and log a success message
 				current_app.logger.info(f"Successfully submitted question {question_doc['question_id']}")
 				flash("Thanks for your question! You will receive an email response soon!")
-			elif form.recaptcha.errors:
+			elif form.recaptcha.errors: # pragma: no cover
 				# Flash a captcha error
 				current_app.logger.info("Caught recaptcha error.")
 				flash("Please complete the reCAPTCHA.")
@@ -204,8 +231,8 @@ class SiteHandler(object):
 
 		Notes
 		------
-		If a user is an Diplomat: They have read-write permissions.
-		If a user is not an Diplomats: They have read permissions.
+		If a user is an Engineering Diplomat: They have read-write permissions.
+		If a user is not an Engineering Diplomat: They have read permissions.
 		"""
 		# Get all events and split into 2 groups
 		eventsl, eventsr = prepare_events(get_events())
