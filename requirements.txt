@@ -33,7 +33,7 @@ requests-oauthlib==1.0.0
 requests==2.19.1; python_version != '3.1.*'
 rsa==4.0
 six==1.11.0
-twilio==6.16.4
+twilio==6.17.0
 uritemplate==3.0.0
 urllib3==1.23; python_version != '3.1.*'
 waitress==1.1.0
