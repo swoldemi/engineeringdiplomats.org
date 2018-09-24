@@ -1,15 +1,17 @@
-Hello {{ name.split(' ')[0] }}, <br/>
-
-You recently asked a question at http://engineeringdiplomats.org. A Diplomat has just answered it.
-<blockquote>
-    {{ question }}
-        - <i>{{ name }} @ {{ submission_time }}</i>
-</blockquote>
-
-{{ answer }}
-
-If you would like further assistance, please come to our office hours from 9 AM to 4 PM in the Engineering Opportunities center.
+Hello {{ question_doc.submitters_name.split(' ')[0] }}, <br/>
+<br/>
+You recently asked a question on engineeringdiplomats.org. An Engineering Diplomat has just answered it.
+<br/>
+<br/>
+Question: "{{ question_doc.question }}" - Received @ {{ question_doc.submission_date }}
+<br/>
+<br/>
+Answer: {{ answer }}
+<br/>
+<br/>
+If you would like further assistance, please come to our office hours from 9 AM to 4 PM in the Engineering Opportunities Center.
 You may also submit another question.
-
-Best regards,
+<br/>
+<br/>
+Best regards, <br/>
 Texas Tech University Engineering Diplomats
