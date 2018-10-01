@@ -133,37 +133,13 @@ def get_events() -> Union[List[List], List[None]]:
 	return all_events
 
 
-def prepare_events(events: List[List[str]]) -> Tuple[List[List[str]], List[List[str]]]:
-	"""Split events into 2 equally sized groups.
-
-	Parameters
-	----------
-	events : List[List[str]]:
-		The events retrieved from the get_events utility function.
-	
-	Returns
-	-------
-	Tuple[List[List[str]], List[List[str]]]
-		Unpackable tuple of the two event groups of equal length.
-	"""
-	eventsl, eventsr = array_split(events, 2)
-	eventsl = eventsl.tolist()
-	eventsr = eventsr.tolist()
-	if len(eventsl) > len(eventsr):
-		for x in range(len(eventsl) - len(eventsr)):
-			eventsr.append([None, None, None, None])
-	elif len(eventsl) < len(eventsr):
-		for x in range( len(eventsr) - len(eventsl)):
-			eventsl.append([None, None, None, None])
-	return eventsl, eventsr
-
-
 def update_event(event: List[str]) -> None:
 	"""Update the RSVP of an event.
 
 	Parameters
 	----------
-	event : dict
-		The event to be updated.
+	event : List[str]
+		A list containing the name of the event to be updated and 
+		the email of the diplomat who RSVP'd.
 	"""
 	pass
