@@ -81,13 +81,27 @@ class SiteHandler(object):
 
 
 	def index(self) -> HTMLBody:
-		"""View for home page."""
+		"""View for home page.
+		
+		Returns
+		-------
+		HTMLBody
+			The rendered index template.
+		"""
 		return render_template("index.jinja2")
 
 
-	def login(self) -> redirect:
+	def login(self) -> Union[redirect, HTMLBody]:
 		"""Login view for Engineering Diplomats.
 		Requires Azure API.
+
+		Returns
+		-------
+		Union[redirect, HTMLBody]
+			redirect
+				If the user is already logged in or attempting to login.
+			HTMLBody
+				If the user is attempting to access the login page, the rendered login template.
 		"""
 		if self.is_authorized:
 			flash("You are already logged in.")
@@ -153,10 +167,14 @@ class SiteHandler(object):
 		return redirect(url_for("index"))
 
 
-	def logout(self) -> Union[redirect, HTMLBody]:
+	def logout(self) -> redirect:
 		"""Logout view for authenticated users.
 		
-		TODO: Catch exceptions here?
+		Returns
+		-------
+		redirect
+			To the index if the user is logged in.
+			To the login page if the user is not yet logged in.
 		"""
 		if self.is_authorized:
 			session.clear()
@@ -166,25 +184,40 @@ class SiteHandler(object):
 		return redirect(url_for("login"))
 
 
-	def questions(self) -> HTMLBody:
-		"""View for authorized Diplomats to view posted questions.
+	def questions(self) -> Union[redirect, HTMLBody]:
+		"""View for authorized Diplomats to view and answer posted questions.
 		
+		Returns
+		-------
+		Union[redirect, HTMLBody]
+			redirect
+				If an Engineering Diplomat has submitted an answer.
+			HTMLBody
+				If the user is attempting to access questions page.
+
 		Notes
 		------
 		Only Engineering Diplomats may view this page.
 		"""
 		if self.is_authorized:
-			if session["user"]["is_diplomat"] == "True":
+			if session.get("user").get("is_diplomat") == "True":
+				questions = self.db.get_questions()
 				if request.method == "GET":
-					return render_template("questions.jinja2", question_list=self.db.get_questions())
-				# 1. Get the question id
-				# 2. Get the response posted by the Diplomat
-				# 3. Get the email associated with the question
-				# 4. Create an email response for the question
-				# 5. Send the response and delete the question
-				print(dict(request.form))
-			flash("Only Engineering Diplomats may view the list of questions.")
-			return redirect(url_for("index"))
+					return render_template("questions.jinja2", questions=questions)
+				if request.method == "POST":
+					question_id = request.form.get("id")
+					request_data = {
+						"questions": questions,
+						"id": question_id,
+						"answer": request.form.get("answer"),
+						"diplomat": session.get("user").get("email"),
+					}
+					answer_submission(self, request_data)
+					current_app.logger.info(f"Sent answer to question {question_id}.")
+					self.db.remove_question(question_id)
+					current_app.logger.info(f"Removed question with id {question_id}.")
+					flash("Your answer has been submitted. Thanks!")
+					return redirect(url_for("questions"))
 		flash("Please login first.")
 		return redirect(url_for("login"))
 
@@ -192,6 +225,14 @@ class SiteHandler(object):
 	def ask(self) -> Union[redirect, HTMLBody]:
 		"""View for any student to post a question.
 
+		Returns
+		-------
+		Union[redirect, HTMLBody]
+			redirect
+				If a student has submitted a question or is not logged in.
+			HTMLBody
+				If the student is attempting to access the ask page, the rendered ask template.
+				
 		Notes
 		------
 		Both Diplomats and students have the same permissions here.
