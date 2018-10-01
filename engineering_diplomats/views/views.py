@@ -20,13 +20,12 @@ from flask import (
 )
 
 from engineering_diplomats.models import (
-	User, 
-	DiplomatAnswerForm,
+	User,
 	QuestionDocument,
 	StudentQueryForm,
 )
 
-from engineering_diplomats.utilities import get_events, prepare_events
+from engineering_diplomats.utilities import answer_submission, get_events, question_submission 
 
 HTMLBody = TypeVar("HTMLBody", str, str, str)
 
@@ -246,21 +245,20 @@ class SiteHandler(object):
 			)
 			if form.validate_on_submit():
 				# Add a question to the database
-				question_doc = QuestionDocument(
+				question_document = QuestionDocument(
 					question_id=uuid4().hex,
 					submitters_name=form.name.data,
 					submitters_email=form.email.data,
 					submission_date=datetime.now(),
 					question=form.question.data,
 				)
-				self.db.insert_question(question_doc)
+				self.db.insert_question(question_document)
 				
 				# Send a notification email to both the student and the President
-				self.mailer.send_confirmation(question_doc)
-				self.mailer.send_notification(question_doc)
+				question_submission(self, question_document)
 
 				# Flash and log a success message
-				current_app.logger.info(f"Successfully submitted question {question_doc['question_id']}")
+				current_app.logger.info(f"Successfully submitted question {question_document['question_id']}.")
 				flash("Thanks for your question! You will receive an email response soon!")
 			elif form.recaptcha.errors: # pragma: no cover
 				# Flash a captcha error
@@ -277,15 +275,21 @@ class SiteHandler(object):
 
 	def events(self) -> [redirect, HTMLBody]:
 		"""View for event page.
-
+		
+		Returns
+		-------
+		Union[redirect, HTMLBody]
+			redirect
+				If an Engineernig Diplomats has RSVPed for an event.
+			HTMLBody
+				If the student is attempting to access the events page, the rendered events template.
+				
 		Notes
 		------
 		If a user is an Engineering Diplomat: They have read-write permissions.
 		If a user is not an Engineering Diplomat: They have read permissions.
 		"""
-		# Get all events and split into 2 groups
-		eventsl, eventsr = prepare_events(get_events())
-		return render_template("events.jinja2", eventsl=eventsl, eventsr=eventsr)
+		return render_template("events.jinja2", events=get_events())
 
 
 	def resources(self) -> HTMLBody:
