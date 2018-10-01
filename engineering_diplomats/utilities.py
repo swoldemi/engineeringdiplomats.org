@@ -37,6 +37,53 @@ def send_text_message(message: str) -> None:
 	)
 
 
+@thread_task
+def answer_submission(handler: object, request_data: dict) -> None:
+    """Performs answer submission logic on a new thread.
+    Mainly to mitigate how slow SMTP calls are.
+
+    Parameters
+    -----------
+    handler : SiteHandler
+        Active instance of the SiteHandler.
+
+    request_data : dict
+        Current list of questions, the submitted question's id, 
+        the submitted answer, and the diplomat's email. 
+    """
+    question_id = request_data.get("id")
+    questions = request_data.get("questions")
+    for question in questions:
+        if question_id == question.get("question_id"):
+            question_document = question
+            break
+    
+    answer_data = (
+        request_data.get("answer"),
+        question_document,
+        request_data.get("diplomat"),
+    )
+    handler.mailer.send_answer(answer_data)
+
+
+@thread_task
+def question_submission(handler: object, question_document: object) -> None:
+    """Performs question submission logic on a new thread.
+    Mainly used to mitigate how slow SMTP exchanges are.
+
+    Parameters
+    ----------
+    handler : SiteHandler
+        Active instance of the SiteHandler.
+    
+    question_document : QuestionDocument
+        The metadata of the question that was just submitted.
+
+    """
+    handler.mailer.send_confirmation(question_document)
+    handler.mailer.send_notification(question_document)
+
+
 def get_events() -> Union[List[List], List[None]]:
 	"""Get all events from my Google Calendar.
 
