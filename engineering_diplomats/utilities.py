@@ -93,20 +93,19 @@ def get_events() -> Union[List[List], List[None]]:
 		List[List]
 			A list of event entries indexed as follows:
 			- 0 : str
-			  - The name of the events.
+			  The name of the events.
 			- 1 : str
-			  - The start time of the event.
+			  The start time of the event.
 			- 2 : str 
-			  - The location of the event.
+			  The location of the event.
 			- 3 : List[str] 
-			  - The diplomats attending the event.
+			  The diplomats attending the event.
 		List[None]:
 			If there are no events in the Google Calendar.
 
 	Notes
 	------
-	Attendes denotes that diplomats that have RSVP'd for an event
-	TODO: Turn this function into a generator
+	Attendes denotes that diplomats that have RSVPed for an event
 	"""
 	store = file.Storage("token.json")
 	creds = store.get()
