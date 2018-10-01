@@ -18,6 +18,7 @@ waitress = "*"
 numpy = "*"
 dnspython = "*"
 python-dateutil = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pytest-cov = "*"
