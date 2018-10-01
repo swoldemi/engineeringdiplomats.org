@@ -44,15 +44,23 @@ class SiteHandler(object):
 		An instance of a configured mailing object.
 	"""
 	def __init__(self, db, oauth, mailer):
-		self.__url__ = "http://engineeringdiplomats.org"
 		self.db = db
 		self.oauth = oauth
 		self.mailer = mailer
 
 
-	def get_token(self): # pragma: no cover
-		"""Called by flask_oauthlib.client to retrieve current access token."""
-		return (session.get("access_token"), "")
+	def get_token(self) -> Union[str, None]: # pragma: no cover
+		"""Called by flask_oauthlib.client to retrieve current access token.
+		
+		Returns
+		-------
+		Union[str, None]
+			str
+				The user's access token.
+			None
+				If there is no access token available.
+		"""
+		return session.get("access_token", None)
 
 
 	@property
