@@ -12,7 +12,7 @@ test:
 update_reqs:
 	pipenv lock -r > requirements.txt
 
-make_docs:
+docs:
 	ifeq ($(PIPENV_ACTIVE),1) 
 		echo Beginning documentation build...
 		sphinx-apidoc -f -o ./docs/source .
@@ -20,3 +20,9 @@ make_docs:
 		echo "Documentation build complete."
 	else 
 		echo Please run 'pipenv shell' first. 
+
+tarball:
+	tar -czf credentials.tar.gz token.json .env credentials.json logs
+	travis login --github-token $(TRAVIS_TOKEN)
+	travis encrypt-file credentials.tar.gz --add
+	del credentials.tar.gz
