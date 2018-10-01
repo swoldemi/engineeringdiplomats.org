@@ -2,7 +2,7 @@
     <nav class="navbar is-black is-fixed-top">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" href="{{ url_for('index') }}">
+                <a class="navbar-item brand" href="{{ url_for('index') }}">
                     Engineering Diplomats
                 </a>
                 <span class="navbar-burger burger" data-target="navbarMenu">
@@ -22,6 +22,12 @@
                             href="{{ url_for('resources') }}">Resources</a>
                         <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'events' }}"
                             href="{{ url_for('events') }}">Events</a>
+                        {% if "user" in session -%}
+                        {% if session.user.is_diplomat -%}
+                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'questions' }}"
+                            href="{{ url_for('questions') }}">Questions</a>
+                        {%- endif %}
+                        {%- endif %}
                         {% if "user" in session -%}
                         <a class="navbar-item button has-text-white is-ttu-red" href="{{ url_for('logout') }}">
                             <span class="icon">
