@@ -4,7 +4,7 @@ python:
 - '3.7'
 dist: xenial
 before_install:
-- echo $TOKEN | gpg --passphrase-fd 0 credentials.tar.gz
+- echo $TOKEN | gpg --passphrase-fd 0 credentials.tar.gz.gpg
 - tar -xzf credentials.tar.gz
 - rm credentials.tar.gz
 install:
