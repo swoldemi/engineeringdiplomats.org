@@ -4,6 +4,8 @@
 
 import os
 
+from typing import Tuple
+
 from flask import current_app, render_template
 from flask_mail import Message
 
@@ -24,33 +26,33 @@ class Mailer(object):
 
 
     @redirect_email_stdout
-    def send_confirmation(self, question_doc: object) -> None:
+    def send_confirmation(self, question_document: object) -> None:
         """Send a student a confirmation that their question has been received.
 
         Parameters
         ----------
-        question_doc : QuestionDocument
+        question_document : QuestionDocument
             The metadata of the question that was just submitted.
         """
         kwargs = {
             "subject": "Question Received - engineeringdiplomats.org",
-            "recipients": [question_doc.get("submitters_email")],
+            "recipients": [question_document.get("submitters_email")],
             "sender": os.environ.get("MAIL_ACCOUNT"),
             "bcc": os.environ.get("MAINTAINER"),
         }
         msg = Message(**kwargs)
-        msg.html = render_template("_emails/send_confirmation.html", question_doc=question_doc)
         with self.mailer.app.app_context():
+            msg.html = render_template("_emails/send_confirmation.html", question_document=question_document)
             self.mailer.send(msg)
     
 
     @redirect_email_stdout
-    def send_notification(self, question_doc: object) -> None:
+    def send_notification(self, question_document: object) -> None:
         """Notify the President that a new question has been received.
         
         Parameters
         ----------
-        question_doc : QuestionDocument
+        question_document : QuestionDocument
             The metadata of the question that was just submitted.
         """
         kwargs = {
@@ -59,34 +61,34 @@ class Mailer(object):
             "sender": os.environ.get("MAIL_ACCOUNT"),
         }
         msg = Message(**kwargs)
-        msg.html = render_template("_emails/new_question.html", question_doc=question_doc)
         with self.mailer.app.app_context():
+            msg.html = render_template("_emails/new_question.html", question_document=question_document)
             self.mailer.send(msg)
 
 
     @redirect_email_stdout
-    def send_answer(self, answer: str, question_doc: object) -> None:
+    def send_answer(self, answer_data: Tuple[str, object, str]) -> None:
         """Send a student the answer to their question.
         
         Parameters
         ----------
-        answer : str
-            The answer to a student's question 
-            provided by an Engineering Diplomat.
-        question_doc : QuestionDocument
-            The metadata of the question that was just submitted.
+        answer_data : Tuple[str, object, str]
+            The answer submitted by an Engineering Diplomat.
+            The QuestionDocument object that matches the answered question's id.
+            The email of the Engineering Diplomat that submitted the question.
         """
         kwargs = {
             "subject": "Your question has been answered - Engineering Diplomats",
-            "recipients": [question_doc.get("submitters_email")],
+            "recipients": [answer_data[1].get("submitters_email")],
             "sender": os.environ.get("MAIL_ACCOUNT"),
             "bcc": os.environ.get("MAINTAINER"),
         }
         msg = Message(**kwargs)
-        msg.html = render_template(
-            "_emails/send_answer.html",
-            question_doc=question_doc,
-            answer=answer,
-        )
         with self.mailer.app.app_context():
+            msg.html = render_template(
+                "_emails/send_answer.html",
+                answer=answer_data[0],
+                question_document=answer_data[1],
+                diplomat=answer_data[2]
+            )
             self.mailer.send(msg)
