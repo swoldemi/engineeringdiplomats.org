@@ -1,23 +1,15 @@
 {% extends 'layout.jinja2' -%}
 {% block body -%}
-    <div class="box cta">
+    {% include "_partials/_flash.jinja2" -%}
+    <div class="box">
         <p class="has-text-centered">
-            {% with messages = get_flashed_messages() -%} 
-            {% if messages %}
-            {% for message in messages -%}
-            <div class="notification is-dark">{{ message }}</div>
-            {% endfor %}
-            {%- else -%}
             <span class="tag is-dark">Need help?</span>
             <br /> Submit any questions you may have below!
             <br /> An Engineering Diplomat will send a response to your TTU email address.
-            {%- endif -%} 
-            {%- endwith %}
         </p>
     </div>
     <div class="container is-vcentered">
         <form method="POST" action="/ask">
-            {{ form.csrf_token }}
             <div class="field">
                 <label class="label">Name (read-only)</label>
                 <div class="control has-icons-right">

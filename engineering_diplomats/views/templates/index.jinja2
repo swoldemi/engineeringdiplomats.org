@@ -1,16 +1,6 @@
 {% extends 'layout.jinja2' -%}
 {% block body -%}
-    {% with messages = get_flashed_messages() -%}
-    {% if messages %}
-    <div class="box cta">
-        <p class="has-text-centered">
-            {% for message in messages -%}
-            <div class="notification is-dark">{{ message }}</div>
-            {% endfor -%}
-        </p>
-    </div>
-    {%- endif -%}
-    {%- endwith %}
+    {% include "_partials/_flash.jinja2" -%}
     <section>
         <div class="hero-body">
             <div class="container is-dark has-text-centered">
