@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from time import sleep
 from uuid import uuid4
 
 import pytest
@@ -28,7 +29,7 @@ class TestSuiteControllers(object):
         assert "simon.woldemichael@ttu.edu" in mongo_connector.get_diplomats()
 
         # Create a new question
-        question_doc = QuestionDocument(
+        question_document = QuestionDocument(
             question_id=uuid4().hex,
             submitters_name="Simon Woldemichael",
             submitters_email="simon.woldemichael@ttu.edu",
@@ -37,17 +38,17 @@ class TestSuiteControllers(object):
         )
 
         # Insert question into database
-        assert type(mongo_connector.insert_question(question_doc)) is ObjectId
+        assert type(mongo_connector.insert_question(question_document)) is ObjectId
 
         # Make sure recently inserted question exists when get call is made
         found = False
         for document in mongo_connector.get_questions():
-            if document["question_id"] == question_doc["question_id"]:
+            if document["question_id"] == question_document["question_id"]:
                 found = True
         assert found
 
         # Delete the question that was just added
-        assert mongo_connector.remove_question(question_doc["question_id"])
+        assert mongo_connector.remove_question(question_document["question_id"])
 
 
     def test_mailer(self, app):
@@ -58,17 +59,28 @@ class TestSuiteControllers(object):
         app : flask.Flask
             Instance of the application injected by pytest.
         """
+        # Instantiate a new Mailer
         mailer = Mailer(Mail(app))
         
-        question_doc = QuestionDocument(
+        # Create a new question document
+        question_document = QuestionDocument(
             question_id=uuid4().hex,
-            submitters_name="Simon Woldemichael",
+            submitters_name="Woldemichael, Simon",
             submitters_email="simon.woldemichael@ttu.edu",
             submission_date=datetime.now(),
             question="How do I study abroad?",
         )
 
-        assert mailer.send_notification(question_doc) is None
-        assert mailer.send_confirmation(question_doc) is None
-        assert mailer.send_answer("Answer", question_doc) is None
-            
+        # Send emails using the data provided in the question document
+        assert mailer.send_notification(question_document) is None
+        sleep(2)
+        assert mailer.send_confirmation(question_document) is None
+        sleep(2)
+
+        # Create answer data and send an answer
+        answer_data = (
+            "Answer",
+            question_document,
+            "simon.woldemichael@ttu.edu",
+        )
+        assert mailer.send_answer(answer_data) is None
