@@ -1,44 +1,50 @@
 {% extends 'layout.jinja2' -%}
 {% block body -%}
-    {% with messages = get_flashed_messages() -%}
-    {% if messages %}
-    <div class="box cta">
-        <p class="has-text-centered">
-            {% for message in messages -%}
-            <div class="notification is-dark">{{ message }}</div>
-            {% endfor -%}
-        </p>
-    </div>
-    {%- endif -%}
-    {%- endwith %}
-    <div class="box cta">
+    {% include "_partials/_flash.jinja2" -%}
+    <div class="box">
         <p class="has-text-centered">
             Questions asked by students.
         </p>
     </div>
     <section class="container">
-        {% for question in questions %}
+        {% if questions.count() -%}
         <div class="box">
             <article class="media">
                 <div class="media-content">
+                    {% for question in questions -%}
                     <div class="content">
                         <p>
-                            <strong>{{ question.submitters_name }}</strong> <small>{{ question.submitters_email }} </small> <small>{{ question.submission_date }}</small>
+                            <strong>{{ question.submitters_name }}</strong> | <small>{{ question.submitters_email }}
+                            </small>
+                            | <small><i>{{ question.submission_date }}</i></small>
                             <br>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa
-                            fringilla egestas. Nullam condimentum luctus turpis.
+                            Q: {{ question.question }}
                         </p>
-                    </div>
-                    <nav class="level is-mobile">
-                        <div class="level-left">
-                            <a class="level-item" aria-label="answer">
-                                
-                            </a>
+                        <div>
+                            <button class="button answer-expander is-link is-ttu-red">
+                                Answer
+                            </button>
+                            <form method="POST" action="/questions" class="answer-container">
+                                <div>
+                                    <textarea class="textarea" name="answer" placeholder="Type the answer to '{{ question.question }}' here."
+                                        required></textarea>
+                                </div>
+                                <input type="hidden" name="id" value="{{ question.question_id }}" />
+                                <button type="submit" class="button answer-submitter is-link is-ttu-red" onclick="return confirm('Are you sure you want to submit this answer?');">Submit</button>
+                            </form>
                         </div>
-                    </nav>
+                    </div>
+                    <div class="is-divider" data-content="&#8212;"></div>
+                    {%- endfor %}
+                    {%- else -%}
+                    <div class="content">
+                        <div class="box has-text-centered">
+                            There are no questions that need answering.
+                        </div>
+                    </div>
+                    {%- endif %}
                 </div>
             </article>
         </div>
-        {% endfor %}
     </section>
 {%- endblock -%}
