@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/swoldemi/engineeringdiplomats.org.svg?branch=master)](https://travis-ci.org/swoldemi/engineeringdiplomats.org)
 [![Updates](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/shield.svg)](https://pyup.io/repos/github/swoldemi/engineeringdiplomats.org/)
 [![Coverage Status](https://coveralls.io/repos/github/swoldemi/engineeringdiplomats.org/badge.svg)](https://coveralls.io/github/swoldemi/engineeringdiplomats.org)
 [![Maintainability](https://api.codeclimate.com/v1/badges/02c0c324b1970d0ab448/maintainability)](https://codeclimate.com/github/swoldemi/engineeringdiplomats.org/maintainability)
@@ -12,21 +13,16 @@ A web application for Texas Tech University's Engineering Diplomats.
 
 
 ## Local Setup
-Note: The `backpop` directory and master `.env` file are gitignored.
 1. [Install Python 3.7](https://www.python.org/downloads/release/python-370/)
-2. [Install Docker](https://www.docker.com/get-started)
-3. Install `make`
+2. Install `make`
     - Windows ([Chocolatey](https://chocolatey.org/docs/installation)): `choco install make`
     - Mac ([Homebrew](http://brewformulas.org/Make)): `brew install make`
 3. Begin development environment
     1. `git clone https://github.com/swoldemi/engineeringdiplomats.org`
     2. `cd engineeringdiplomats.org`
     3. `make init`
-    4. `docker-compose up -d`
-    5. `python backpop/init_db.py`
-    6. `make start`
+    4. `make run`
 4. Go to `localhost:8080` in your browser
-
 
 ## What this is
 1. Displays International Engineering Program and Engineering Diplomats' events for view by anyone.
