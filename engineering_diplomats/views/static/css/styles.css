@@ -5,7 +5,8 @@
     font-family: 'Arbutus Slab', serif;
 }
 
-html, body {
+html,
+body {
     display: flex;
     min-height: calc(100vh - 52px);
     flex-direction: column;
@@ -44,7 +45,7 @@ img {
 a.navbar-item.is-active {
     border-bottom-color: #bd0d0d !important;
     color: #bd0d0d !important;
-    
+
 }
 
 a.navbar-item {
@@ -58,18 +59,31 @@ a.navbar-item:hover {
     color: #bd0d0d !important;
 }
 
+a.navbar-item.brand:hover {
+    background-color: black !important;
+}
+
+/* QA Containers */
+.answer-container,
+.answer-submitter {
+    display: none;
+    padding-top: 10px;
+}
 
 @media screen and (max-width: 1087px) {
     .navbar-menu {
         background-color: #bd0d0d;
     }
+
     .buttons .button:not(:last-child) {
         margin-right: unset !important;
     }
+
     .buttons {
         margin-right: 1% !important;
         margin-left: 1% !important;
     }
+
     .navbar-menu.is-active>.navbar-end>.buttons {
         align-items: center;
         flex-wrap: wrap;
