@@ -1,16 +1,16 @@
-Hello {{ question_doc.submitters_name.split(' ')[0] }}, <br/>
+Hello {{ question_document.submitters_name.split(",")[1] }}, <br/>
 <br/>
 You recently asked a question on engineeringdiplomats.org. An Engineering Diplomat has just answered it.
 <br/>
 <br/>
-Question: "{{ question_doc.question }}" - Received @ {{ question_doc.submission_date }}
+Question: "{{ question_document.question }}" - Received @ {{ question_document.submission_date }}
 <br/>
 <br/>
 Answer: {{ answer }}
 <br/>
 <br/>
 If you would like further assistance, please come to our office hours from 9 AM to 4 PM in the Engineering Opportunities Center.
-You may also submit another question.
+You may also submit another question. Or contant the Engineering Diplomat that answered your question at {{ diplomat }}.
 <br/>
 <br/>
 Best regards, <br/>
