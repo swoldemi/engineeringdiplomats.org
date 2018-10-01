@@ -1,17 +1,7 @@
 {% extends 'layout.jinja2' -%}
 {% block body -%}
-    {% with messages = get_flashed_messages() -%}
-    {% if messages %}
-    <div class="box cta">
-        <p class="has-text-centered">
-            {% for message in messages -%}
-            <div class="notification is-dark">{{ message }}</div>
-            {% endfor -%}
-        </p>
-    </div>
-    {%- endif -%}
-    {%- endwith %}
-    <div class="box cta">
+    {% include "_partials/_flash.jinja2" -%}
+    <div class="box">
         <p class="has-text-centered">
             Upcoming information sessions and other important events.
         </p>
@@ -24,51 +14,32 @@
     {%- endif %}
     {%- endif %}
     <section class="container is-mobile">
-        {% if eventsl -%}
-        <div class="columns is-multiline is-mobile">
-            {% for x in range(eventsl|length) -%}
-            {% if eventsl[x].0 is not none -%}
-            <div class="column is-half">
+        {%- if events -%}
+        {% for x in range(events|length) -%}
+        <div class="columns">
+            <div class="column is-centered">
                 <div class="card is-shady">
                     <div class="card-content">
-                        <div class="content">
-                            <h4> {{ eventsl[x].0 }}</h4>
-                            <p>Time: {{ eventsl[x].1 }}</p>
-                            <p>Location: {{ eventsl[x].2 }}</p>
-                            {% if is_diplomat %}
-                            <p>Diplomats Attending: {{ eventsl[x].3 }}</p>
-                            <a class="button is-link is-ttu-red" href="">RSVP</a>
+                        <div class="content has-text-centered">
+                            <h4> {{ events[x].0 }}</h4>
+                            <p><i>Date & Time:</i> {{ events[x].1 }}</p>
+                            <p><i>Location:</i> {{ events[x].2 }}</p>
+                            {% if is_diplomat -%}
+                            {% if events[x].3 is not none -%}
+                            <p><i>Diplomats Attending:</i> {{ events[x].3|join(" & "|safe) }}</p>
+                            {%- else -%}
+                            <p><i>Diplomats Attending:</i> None</p>
+                            {%- endif %}
+                            <button type="submit" class="button is-link is-ttu-red">RSVP</button>
                             {%- endif %}
                         </div>
                     </div>
                 </div>
             </div>
-            {%- endif %}
-            {%- endfor -%}
         </div>
-        <div class="columns is-multiline is-mobile">
-            {% for x in range(eventsr|length) -%}
-            {% if eventsr[x].0 is not none -%}
-            <div class="column is-half">
-                <div class="card is-shady">
-                    <div class="card-content">
-                        <div class="content">
-                            <h4> {{ eventsr[x].0 }}</h4>
-                            <p>Time: {{ eventsr[x].1 }}</p>
-                            <p>Location: {{ eventsr[x].2 }}</p>
-                            {% if is_diplomat %}
-                            <p>Diplomats Attending: {{ eventsr[x].3 }}</p>
-                            <a class="button is-link is-ttu-red" href="">RSVP</a>
-                            {%- endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {%- endif %}
-            {%- endfor -%}
-        </div>
+        {%- endfor -%}
         {%- else -%}
-        <div align="center" class="box cta">
+        <div align="center" class="box">
             <p class="has-text-centered">
                 There are currently no upcoming events.
             </p>
