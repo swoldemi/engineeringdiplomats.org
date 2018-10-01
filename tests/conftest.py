@@ -20,4 +20,5 @@ def app():
     app = init_app()
     app.debug = True
     app.threaded = True
+    app.testing = True
     return app
