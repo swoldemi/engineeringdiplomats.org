@@ -9,7 +9,7 @@ before_install:
 - rm credentials.tar.gz
 install:
 - python -m pip install pipenv
-- pipenv lock -r > requirements.txt
+- pipenv lock -r -d > requirements.txt
 - pip install -r requirements.txt
 script:
 - pytest --cov=./ --show-progress
