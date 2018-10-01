@@ -4,8 +4,7 @@ python:
 - '3.7'
 dist: xenial
 before_install:
-- openssl aes-256-cbc -K "$encrypted_0e6f9bcfd0e0_key" -iv "$encrypted_0e6f9bcfd0e0_iv"
-  -in credentials.tar.gz.enc -out credentials.tar.gz -d
+- echo $TOKEN | gpg --passphrase-fd 0 credentials.tar.gz
 - tar -xzf credentials.tar.gz
 - rm credentials.tar.gz
 install:
@@ -14,3 +13,6 @@ install:
 script:
 - pipenv shell
 - pytest --cov=./ --show-progress
+env:
+  global:
+    secure: u6XNC7dFIUFewG2ak8JWhElGTa7AiNWxkD8063+hLD2fhkr6jPWxqE/Q7lD4jXn4+RXeIKGU79FLfr4qTmb52HteQ+cHFzwQydsuAUySTPH7FWNrPu5lQ8/tkNwLOz3/d6kc3ZShWAGYEH9wmLBE6fva+O2EWMPcm05g72YikXeBAsTlczS8hCEk/2dEURb5O/a43RpgJstY6iT+6FNNCAeuRnZZcbQz9yyl5KjsiSW3TjOnFjGeefiR0dKFLNRHWa83vAJ1jWlsy84sMjNUinVDII/3jkyQxduWjcBq53e5Qpzk9yRkxDfRmwVsztAhn2aeycj1cTPm20++ZZl0jRKtnGnHbdtDVzQeALnrQTHo1rLl1D36qyBiiIDhiD/KAJinD1Ae5nmsHGyJD2EY/OS7ppHhbOKlsVX3dPsdeaW7pKPVoGBEbH7B1LkTWQNcjquyGHGJZ8e0pEKoLf8BsRJA4LgKN+7y4UCBiD3WjAEOSmU96JTEwFCi8Tqcv6gZOlZjqxV7XMBHcaRJgPVcwoRUoYYD4fyFKpHIuUFSyUQ1jtGqjgmJH5iOaxyVZRkOwhgRcavVlzhwOJnuY6H4Ob+Yyq6gyn5KgG7DVwVs+VQECy/1shQXdU6RrNjUAzRjWYARknHvjyBBE1fVfBTTivhq/m2zSTPz2i1kphn2TFY=

@@ -24,5 +24,6 @@ docs:
 tarball:
 	tar -czf credentials.tar.gz token.json .env credentials.json logs
 	travis login --github-token $(TRAVIS_TOKEN)
-	travis encrypt-file credentials.tar.gz --add
+	travis encrypt TOKEN=$(TRAVIS_TOKEN) --add
+	gpg -c credentials.tar.gz
 	del credentials.tar.gz
