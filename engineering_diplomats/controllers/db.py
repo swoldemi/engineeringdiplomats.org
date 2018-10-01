@@ -87,7 +87,7 @@ class MongoConnector(object):
 		
 		Returns
 		--------
-		pymongo.cursor.Cursor, CursorType
+		pymongo.cursor.Cursor : CursorType
 			A cursor for the collection which contains all of the question documents.
 		"""
 		with self.app.app_context():
@@ -108,7 +108,7 @@ class MongoConnector(object):
 
 		Returns
 		-------
-		pymongo.results.DeleteResult.ackacknowledged, bool 
+		pymongo.results.DeleteResult.acknowledged : bool 
 			Database acknowledgement that the document was deleted. 
 		"""
 		with self.app.app_context():
@@ -117,4 +117,3 @@ class MongoConnector(object):
 			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
-
