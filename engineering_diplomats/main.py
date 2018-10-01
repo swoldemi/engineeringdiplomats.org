@@ -55,4 +55,4 @@ def init_app() -> Flask:
 
 
 if __name__ == "__main__": # pragma: no cover
-	init_app().run(host="0.0.0.0", port=8080, debug=True)
+	init_app().run(host="0.0.0.0", port=8080, threaded=True, debug=True)
