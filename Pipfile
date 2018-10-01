@@ -17,6 +17,7 @@ flask-mail = "*"
 waitress = "*"
 numpy = "*"
 dnspython = "*"
+python-dateutil = "*"
 
 [dev-packages]
 pytest-cov = "*"
