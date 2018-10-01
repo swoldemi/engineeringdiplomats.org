@@ -12,8 +12,3 @@ class StudentQueryForm(FlaskForm):
     name = StringField("name", [validators.DataRequired()])
     email = StringField("email", [validators.DataRequired()])
     recaptcha = RecaptchaField()
-
-
-class DiplomatAnswerForm(FlaskForm):
-    """Encapsulation of a form for answers provided by Engineering Diplomats."""
-    pass
