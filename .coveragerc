@@ -8,10 +8,12 @@ exclude_lines =
 	send_text_message
 omit =
 	*/production/*
+	setup.py
 
 [run]
 omit =
 	*/production/*
+	setup.py
 
 [html]
 directory = docs/coverage_report
