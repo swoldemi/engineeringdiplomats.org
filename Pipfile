@@ -19,6 +19,7 @@ numpy = "*"
 dnspython = "*"
 python-dateutil = "*"
 python-dotenv = "*"
+pyjwt = "*"
 
 [dev-packages]
 pytest-cov = "*"
