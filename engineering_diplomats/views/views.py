@@ -8,9 +8,10 @@ from datetime import datetime
 from typing import TypeVar, Union
 from uuid import uuid4
 
+import logme
+
 from flask import (
 	abort,
-	current_app,
 	flash,
 	redirect, 
 	request, 
@@ -30,6 +31,7 @@ from engineering_diplomats.utilities import answer_submission, get_events, quest
 HTMLBody = TypeVar("HTMLBody", str, str, str)
 
 
+@logme.log
 class SiteHandler(object):
 	"""Views for engineeringdiplomats.org.
 
@@ -212,9 +214,9 @@ class SiteHandler(object):
 						"diplomat": session.get("user").get("email"),
 					}
 					answer_submission(self, request_data)
-					current_app.logger.info(f"Sent answer to question {question_id}.")
+					self.logger.info(f"Sent answer to question {question_id}.")
 					self.db.remove_question(question_id)
-					current_app.logger.info(f"Removed question with id {question_id}.")
+					self.logger.info(f"Removed question with id {question_id}.")
 					flash("Your answer has been submitted. Thanks!")
 					return redirect(url_for("questions"))
 		flash("Please login first.")
@@ -243,32 +245,33 @@ class SiteHandler(object):
 				"ask.jinja2", 
 				form=form,
 			)
-			if form.validate_on_submit():
-				# Add a question to the database
-				question_document = QuestionDocument(
-					question_id=uuid4().hex,
-					submitters_name=form.name.data,
-					submitters_email=form.email.data,
-					submission_date=datetime.now(),
-					question=form.question.data,
-				)
-				self.db.insert_question(question_document)
-				
-				# Send a notification email to both the student and the President
-				question_submission(self, question_document)
+			elif request.method == "POST":
+				if form.validate_on_submit():
+					# Add a question to the database
+					question_document = QuestionDocument(
+						question_id=uuid4().hex,
+						submitters_name=form.name.data,
+						submitters_email=form.email.data,
+						submission_date=datetime.now(),
+						question=form.question.data,
+					)
+					self.db.insert_question(question_document)
+					
+					# Send a notification email to both the student and the President
+					question_submission(self, question_document)
 
-				# Flash and log a success message
-				current_app.logger.info(f"Successfully submitted question {question_document['question_id']}.")
-				flash("Thanks for your question! You will receive an email response soon!")
-			elif form.recaptcha.errors: # pragma: no cover
-				# Flash a captcha error
-				current_app.logger.info("Caught recaptcha error.")
-				flash("Please complete the reCAPTCHA.")
-			else: # pragma: no cover
-				# Flash unknown error
-				current_app.logger.info("Caught unknown error.")
-				flash("Error.")
-			return redirect(url_for("ask"))
+					# Flash and log a success message
+					self.logger.info(f"Successfully submitted question {question_document['question_id']}.")
+					flash("Thanks for your question! You will receive an email response soon!")
+				elif form.recaptcha.errors: # pragma: no cover
+					# Flash a captcha error
+					self.logger.info("Caught recaptcha error.")
+					flash("Please complete the reCAPTCHA.")
+				else: # pragma: no cover
+					# Flash unknown error
+					self.logger.info("Caught unknown error.")
+					flash("Error.")
+				return redirect(url_for("ask"))
 		flash("Please login to ask questions.")
 		return redirect(url_for("login"))
 
