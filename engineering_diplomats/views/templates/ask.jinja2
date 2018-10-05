@@ -10,6 +10,7 @@
     </div>
     <div class="container is-vcentered">
         <form method="POST" action="/ask">
+            {{ form.csrf_token }}
             <div class="field">
                 <label class="label">Name (read-only)</label>
                 <div class="control has-icons-right">
