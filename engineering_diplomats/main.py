@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import logging
 import os
 import sys
+
+import logme
 
 from flask import Flask
 from flask_mail import Mail
@@ -14,23 +15,11 @@ from engineering_diplomats.settings import microsoft_oauth_config, app_config_kw
 from engineering_diplomats.views.views import SiteHandler
 
 
-# Logging setup
-ld = logging.DEBUG
-logger = logging.getLogger(__name__)
-logger.setLevel(ld)
-fh = logging.FileHandler("./logs/main.log")
-fh.setLevel(ld)
-ch = logging.StreamHandler()
-ch.setLevel(ld)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-fh.setFormatter(formatter)
-ch.setFormatter(formatter)
-logger.addHandler(fh)
-logger.addHandler(ch)
-
-
-def init_app() -> Flask:
+@logme.log
+def init_app(logger=None) -> Flask:
 	"""Initialize the application"""
+	logger.debug("Initializing application from factory.")
+	
 	app = Flask(
 		"engineeringdiplomats[dot]org",
 		static_folder=os.environ.get("STATIC_FOLDER"),
@@ -38,7 +27,6 @@ def init_app() -> Flask:
 	)
 	app.url_map.strict_slashes = False
 	app.config.update(**app_config_kwargs)
-	app.logger = logger
 
 	oauth = OAuth(app)
 	db = MongoConnector(app)
@@ -51,6 +39,7 @@ def init_app() -> Flask:
 	
 	app = apply_routes(app, site_handler)
 
+	logger.debug("Initialization complete; returning application. ")
 	return app
 
 
