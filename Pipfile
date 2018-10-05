@@ -19,7 +19,7 @@ numpy = "*"
 dnspython = "*"
 python-dateutil = "*"
 python-dotenv = "*"
-pyjwt = "*"
+logme = "*"
 
 [dev-packages]
 pytest-cov = "*"
