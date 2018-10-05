@@ -5,6 +5,8 @@ import os
 
 from typing import List
 
+import logme
+
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 from pymongo.cursor import CursorType
@@ -13,6 +15,7 @@ from pymongo.errors import ExecutionTimeout, OperationFailure, ServerSelectionTi
 from engineering_diplomats.models import QuestionDocument
 
 
+@logme.log
 class MongoConnector(object):
 	"""Encapsulates a connection to MongoDB.
 
@@ -31,7 +34,6 @@ class MongoConnector(object):
 	"""
 	def __init__(self, app):
 		self.app = app
-		self.logger = logging.getLogger(__name__)
 		self.errors = (ExecutionTimeout, OperationFailure, ServerSelectionTimeoutError)
 		try:
 			uri = f"mongodb+srv://{os.environ.get('MONGO_USERNAME')}:{os.environ.get('MONGO_PASSWORD')}"
