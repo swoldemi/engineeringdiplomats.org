@@ -8,17 +8,24 @@
 html,
 body {
     display: flex;
-    min-height: calc(100vh - 52px);
     flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.site-content {
+    flex: 1 0 auto;
 }
 
 footer {
-    flex: 1 0 auto;
-    padding: 3rem 1.5rem 4rem;
-}
+    flex-shrink: 0;
+    margin-top: 3px;
+    padding: 1rem !important;
+    left: 0px;
+    right: 0;
+    bottom: 0px;
+    width: 100%;
 
-.button.is-ttu-red {
-    background-color: #bd0d0d !important;
 }
 
 img {
@@ -38,6 +45,22 @@ img {
 }
 
 /* Color adjustments */
+.footer {
+    background-color: #1b1b1b !important;
+}
+
+.facebook-link {
+    color: #bd0d0d !important;
+}
+
+.facebook-link:hover {
+    color: #474444 !important;
+}
+
+.button.is-ttu-red {
+    background-color: #bd0d0d !important;
+}
+
 .navbar-menu {
     background-color: #0a0a0a !important;
 }
@@ -59,8 +82,11 @@ a.navbar-item:hover {
     color: #bd0d0d !important;
 }
 
+a.navbar-item.brand:focus,
 a.navbar-item.brand:hover {
     background-color: black !important;
+    border-bottom-color: black !important;
+    color: white !important
 }
 
 /* QA Containers */
@@ -68,6 +94,14 @@ a.navbar-item.brand:hover {
 .answer-submitter {
     display: none;
     padding-top: 10px;
+}
+
+/* Misc. ID selections */
+#recaptcha {
+    transform: scale(0.92);
+    -webkit-transform: scale(0.92);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
 }
 
 @media screen and (max-width: 1087px) {
