@@ -1,17 +1,20 @@
-{% extends 'layout.jinja2' -%}
+{% extends "layout.jinja2" -%}
 {% block body -%}
-    {% include "_partials/_flash.jinja2" -%}
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container">
-                <form method="POST" action="/login" class="control">
-                    <button type="submit" class="button has-text-white is-ttu-red is-medium is-fullwidth is-size-6-mobile">
-                        <i class="fab fa-windows"></i>
-                        &nbsp;
-                        Login with your TTU Email Account
-                    </button>
-                </form>
-            </div>
+{% include "_partials/_flash.jinja2" -%}
+<section class="section">
+    <div class="container">
+        <form method="POST" action="/login" class="control">
+            <button type="submit" class="button has-text-white is-ttu-red is-medium is-fullwidth is-size-6-mobile">
+                <i class="fab fa-windows"></i>
+                &nbsp;
+                Login with your TTU Email Account
+            </button>
+        </form>
+        <br>
+        <div class="box">
+            <p class="has-text-centered">Note: Only faculty, staff, and students with an active Texas Tech University
+                (@ttu.edu) inbox are permitted to login.</p>
         </div>
-    </section>
+    </div>
+</section>
 {%- endblock %}

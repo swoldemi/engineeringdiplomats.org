@@ -1,25 +1,25 @@
-{% extends 'layout.jinja2' -%}
+{% extends "layout.jinja2" -%}
 {% block body -%}
-
-    <div class="box">
-        <p class="has-text-centered">
-            Resources for information and reference.
-        </p>
-    </div>
-    <section class="container">
-        <div class="columns features">
-
+<div class="box">
+    <p class="has-text-centered">
+        Resources for information and reference.
+    </p>
+</div>
+<section class="section">
+    <div class="container">
+        <div class="columns">
             <div class="column is-4">
-                <div class="card is-shady">
+                <div class="card is-centered is-shady">
                     <div class="card-image">
                         <figure class="image is-square">
-                            <img src="http://www.depts.ttu.edu/coe/iep/images/NEW_ieplogo.png" alt="IEP Logo">
+                            <img src="http://www.depts.ttu.edu/coe/iep/images/NEW_ieplogo.png" alt="IEP Logo" />
                         </figure>
                     </div>
                     <div class="card-content">
                         <div class="content">
                             <h4>WCOE International Engineering Program</h4>
-                            <p>The main page for details on the Whitacre College of Engineering's International Engineering
+                            <p>The main page for details on the Whitacre College of Engineering's International
+                                Engineering
                                 Program.</p>
                             <a class="button is-link is-ttu-red" href="http://www.depts.ttu.edu/coe/iep/">Learn More</a>
                         </div>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="column is-4">
-                <div class="card is-shady">
+                <div class="card is-centered is-shady">
                     <div class="card-image">
                         <figure class="image is-square">
                             <img src="{{ url_for('static', filename='img/sa-banner.PNG') }}" alt="IEP Logo">
@@ -36,16 +36,17 @@
                     </div>
                     <div class="card-content">
                         <div class="content">
-                            <h4>Study Abroad Advanced Program Search</h4>
-                            <p>Browse TTU Study Abroad programs.</p>
-                            <a class="button is-link is-ttu-red" href="https://www.depts.ttu.edu/international/studyabroad/">Learn More</a>
+                            <h4>TTU Study Abroad Programs</h4>
+                            <p>Browse all TTU Study Abroad programs.</p>
+                            <a class="button is-link is-ttu-red" href="https://www.depts.ttu.edu/international/studyabroad/">Learn
+                                More</a>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="column is-4">
-                <div class="card is-shady">
+                <div class="card is-centered is-shady">
                     <div class="card-image">
                         <figure class="image is-6by4">
                             <img src="{{ url_for('static', filename='img/fall-2018-office-hour-schedule.PNG') }}" alt="Fall 2018 Office Hour Schedule">
@@ -60,7 +61,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-    </section>
+    </div>
+</section>
 {%- endblock -%}

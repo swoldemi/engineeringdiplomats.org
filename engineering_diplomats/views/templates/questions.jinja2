@@ -1,12 +1,13 @@
-{% extends 'layout.jinja2' -%}
+{% extends "layout.jinja2" -%}
 {% block body -%}
-    {% include "_partials/_flash.jinja2" -%}
-    <div class="box">
-        <p class="has-text-centered">
-            Questions asked by students.
-        </p>
-    </div>
-    <section class="container">
+{% include "_partials/_flash.jinja2" -%}
+<div class="box">
+    <p class="has-text-centered">
+        Questions asked by students.
+    </p>
+</div>
+<section class="section">
+    <div class="container">
         {% if questions.count() -%}
         <div class="box">
             <article class="media">
@@ -46,5 +47,6 @@
                 </div>
             </article>
         </div>
-    </section>
-{%- endblock -%}
+    </div>
+</section>
+{%- endblock %}

@@ -1,23 +1,24 @@
-{% extends 'layout.jinja2' -%}
+{% extends "layout.jinja2" -%}
 {% block body -%}
-    {% include "_partials/_flash.jinja2" -%}
-    <div class="box">
-        <p class="has-text-centered">
-            Upcoming information sessions and other important events.
-        </p>
-    </div>
-    {% if "user" in session -%}
-    {% if session.user.is_diplomat -%}
-    {%- set is_diplomat = True -%}
-    {%- else -%}
-    {%- set is_diplomat = False -%}
-    {%- endif %}
-    {%- endif %}
-    <section class="container is-mobile">
+{% include "_partials/_flash.jinja2" -%}
+<div class="box">
+    <p class="has-text-centered">
+        Upcoming information sessions and other important events.
+    </p>
+</div>
+{% if "user" in session -%}
+{% if session.user.is_diplomat -%}
+{%- set is_diplomat = True -%}
+{%- else -%}
+{%- set is_diplomat = False -%}
+{%- endif %}
+{%- endif %}
+<section class="section">
+    <div class="container">
         {%- if events -%}
         {% for x in range(events|length) -%}
         <div class="columns">
-            <div class="column is-centered">
+            <div class="column is-full is-centered">
                 <div class="card is-shady">
                     <div class="card-content">
                         <div class="content has-text-centered">
@@ -39,11 +40,12 @@
         </div>
         {%- endfor -%}
         {%- else -%}
-        <div align="center" class="box">
+        <div class="box">
             <p class="has-text-centered">
                 There are currently no upcoming events.
             </p>
         </div>
         {%- endif %}
-    </section>
-{%- endblock -%}
+    </div>
+</section>
+{%- endblock %}

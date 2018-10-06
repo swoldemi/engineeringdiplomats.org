@@ -1,50 +1,49 @@
-    
-    <nav class="navbar is-black is-fixed-top">
-        <div class="container">
-            <div class="navbar-brand">
-                <a class="navbar-item brand" href="{{ url_for('index') }}">
-                    Engineering Diplomats
-                </a>
-                <span class="navbar-burger burger" data-target="navbarMenu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-            </div>
-            <div id="navbarMenu" class="navbar-menu">
-                <div class="navbar-end">
-                    <div class="buttons">
-                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'index' }}"
-                            href="{{ url_for('index') }}">Home</a>
-                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'ask' }}"
-                            href="{{ url_for('ask') }}">Ask a Question</a>
-                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'resources' }}"
-                            href="{{ url_for('resources') }}">Resources</a>
-                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'events' }}"
-                            href="{{ url_for('events') }}">Events</a>
-                        {% if "user" in session -%}
-                        {% if session.user.is_diplomat -%}
-                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'questions' }}"
-                            href="{{ url_for('questions') }}">Questions</a>
-                        {%- endif %}
-                        {%- endif %}
-                        {% if "user" in session -%}
-                        <a class="navbar-item button has-text-white is-ttu-red" href="{{ url_for('logout') }}">
-                            <span class="icon">
-                                <i class="fa fa-sign-out-alt"></i>
-                            </span>
-                            <span>Log out</span>
-                        </a>
-                        {%- else -%}
-                        <a class="navbar-item button has-text-white is-ttu-red" href="{{ url_for('login') }}">
-                            <span class="icon">
-                                <i class="fa fa-sign-in-alt"></i>
-                            </span>
-                            <span>Log in</span>
-                        </a>
-                        {%- endif %}
-                    </div>
+<nav class="navbar is-black is-fixed-top">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item brand" href="{{ url_for('index') }}">
+                Engineering Diplomats
+            </a>
+            <span class="navbar-burger burger" data-target="navbarMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+        <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-end">
+                <div class="buttons">
+                    <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'index' }}"
+                        href="{{ url_for('index') }}">Home</a>
+                    <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'ask' }}"
+                        href="{{ url_for('ask') }}">Ask a Question</a>
+                    <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'resources' }}"
+                        href="{{ url_for('resources') }}">Resources</a>
+                    <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'events' }}"
+                        href="{{ url_for('events') }}">Events</a>
+                    {% if "user" in session -%}
+                    {% if session.user.is_diplomat -%}
+                    <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'questions' }}"
+                        href="{{ url_for('questions') }}">Questions</a>
+                    {%- endif %}
+                    {%- endif %}
+                    {% if "user" in session -%}
+                    <a class="navbar-item button has-text-white is-ttu-red" href="{{ url_for('logout') }}">
+                        <span class="icon">
+                            <i class="fa fa-sign-out-alt"></i>
+                        </span>
+                        <span>Log out</span>
+                    </a>
+                    {%- else -%}
+                    <a class="navbar-item button has-text-white is-ttu-red" href="{{ url_for('login') }}">
+                        <span class="icon">
+                            <i class="fa fa-sign-in-alt"></i>
+                        </span>
+                        <span>Log in</span>
+                    </a>
+                    {%- endif %}
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
