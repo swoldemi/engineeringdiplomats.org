@@ -21,6 +21,8 @@
                         href="{{ url_for('resources') }}">Resources</a>
                     <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'events' }}"
                         href="{{ url_for('events') }}">Events</a>
+                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'fundraisers' }}"
+                        href="{{ url_for('fundraisers') }}">Fundraisers</a>
                     {% if "user" in session -%}
                     {% if session.user.is_diplomat -%}
                     <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'questions' }}"
