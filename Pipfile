@@ -3,6 +3,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+build = "docker build -t engineeringdiplomats/engineeringdiplomats.org:latest ."
+push = "docker push engineeringdiplomats/engineeringdiplomats.org:latest"
+
 [packages]
 flask = "*"
 pymongo = "*"
