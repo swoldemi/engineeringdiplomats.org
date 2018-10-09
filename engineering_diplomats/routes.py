@@ -13,7 +13,8 @@ def apply_routes(app, handler) -> object:
     app.add_url_rule("/authorize", "authorize", handler.authorize)
     app.add_url_rule("/logout", "logout", handler.logout)
     app.add_url_rule("/resources", "resources", handler.resources)
-    
+    app.add_url_rule("/fundraisers", "fundraisers", handler.fundraisers)
+
     # Register POST routes
     methods = ["GET", "POST"]
     app.add_url_rule("/login", "login", handler.login, methods=methods)
