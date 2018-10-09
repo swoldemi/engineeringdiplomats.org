@@ -7,6 +7,7 @@ import os
 from datetime import datetime
 from typing import List, Tuple, Union
 
+from dateutil.parser import parse
 from googleapiclient.discovery import build
 from httplib2 import Http
 from numpy import array_split
@@ -103,6 +104,7 @@ def get_events() -> Union[List[List], List[None]]:
 		List[None]:
 			If there are no events in the Google Calendar.
 
+	TODO: Correct start_time
 	Notes
 	------
 	Attendes denotes that diplomats that have RSVPed for an event
@@ -124,7 +126,8 @@ def get_events() -> Union[List[List], List[None]]:
 	events = events_result.get("items", [])
 	all_events = []
 	for event in events:
-		start_time = event["start"].get("dateTime", event["start"].get("date"))
+		start_time = parse(event["start"].get("dateTime", event["start"].get("date"))).__str__().split(" ")[0]
+		start_time = f"{parse(start_time).strftime('%m-%d-%Y')} at 5:00 PM"
 		entry = [event["summary"], start_time, event["location"], event.get("attendees", None)]
 		if entry[3] is not None:
 			entry[3] = [e["email"] for e in entry[3]]
