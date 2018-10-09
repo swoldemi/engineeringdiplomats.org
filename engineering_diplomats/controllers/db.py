@@ -45,7 +45,7 @@ class MongoConnector(object):
 		
 		self.diplomats_collection = self.client.diplomats.registered_diplomats
 		self.questions_collection = self.client.diplomats.questions
-
+		self.fundraisers_collection = self.client.diplomats.fundraisers
 	
 	def get_diplomats(self) -> List[str]:
 		"""Return the emails of all of the registered Engineering Diplomats.
@@ -116,6 +116,22 @@ class MongoConnector(object):
 		with self.app.app_context():
 			try:
 				return self.questions_collection.delete_one({"question_id": id}).acknowledged
+			except self.errors as e: # pragma: no cover
+				self.logger.exception(e)
+				raise
+
+	
+	def get_fundraisers(self) -> CursorType:
+		"""Get all upcoming fundraisers from fundraisers collection.
+		
+		Returns
+		--------
+		pymongo.cursor.Cursor : CursorType
+			A cursor for the collection which contains all of the question documents.
+		"""
+		with self.app.app_context():
+			try:
+				return self.fundraisers_collection.find({})
 			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
