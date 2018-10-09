@@ -298,3 +298,8 @@ class SiteHandler(object):
 	def resources(self) -> HTMLBody:
 		"""View for resources page."""
 		return render_template("resources.jinja2")
+
+
+	def fundraisers(self) -> HTMLBody:
+		"""View for fundraisers page."""
+		return render_template("fundraisers.jinja2", fundraisers=self.db.get_fundraisers())
