@@ -43,16 +43,15 @@ class SiteHandler(object):
 		An instance of an authenticated Outlook OAuth client.
 	mailer : flask.Mail
 		An instance of a configured mailing object.
+	callback : str
+		The callback URI expected by Microsoft Outlook's OAuth2 API.
 	"""
 	def __init__(self, db, oauth, mailer):
 		self.db = db
 		self.oauth = oauth
 		self.mailer = mailer
-		
-		if os.environ.get("FLASK_ENV") == "development":
-			self.callback = "http://localhost:8080/authorize"
-		else:
-			self.callback = "http://engineeringdiplomats.org/authorize"
+		self.callback = "http://localhost:8080/authorize"
+		self.external = False
 
 
 	def get_token(self) -> Union[str, None]: # pragma: no cover
@@ -111,7 +110,7 @@ class SiteHandler(object):
 		"""
 		if self.is_authorized:
 			flash("You are already logged in.")
-			return redirect(url_for("index"))
+			return redirect(url_for("index", _external=self.external))
 		elif request.method == "GET":
 			return render_template("login.jinja2")
 		session["state"] = str(uuid4())
@@ -132,13 +131,13 @@ class SiteHandler(object):
 		# Extract states
 		request_state = request.args.get("state", default=None)
 		session_state = session.get("state", default=None)
-		
+
 		# Compare states for validity
 		if (request_state != session_state) or (request_state is None):
 			abort(404)	
 		elif self.is_authorized:
 			flash("You are already logged in.")
-			return redirect(url_for("index"))
+			return redirect(url_for("index", _external=self.external))
 
 		# If not mocking the API
 		if "MOCK" not in os.environ: # pragma: no cover
@@ -170,7 +169,7 @@ class SiteHandler(object):
 		# Define the rest of the session user
 		session["user"] = {"name": user.name, "email": user.email, "is_diplomat": user.is_diplomat}
 		flash(f"Successfully logged in. Hello {user.name.split(',')[1]}.")
-		return redirect(url_for("index"))
+		return redirect(url_for("index", _external=self.external))
 
 
 	def logout(self) -> redirect:
@@ -185,9 +184,9 @@ class SiteHandler(object):
 		if self.is_authorized:
 			session.clear()
 			flash("Successfully logged out.")
-			return redirect(url_for("index"))
+			return redirect(url_for("index", _external=self.external))
 		flash("You must login before logging out.")
-		return redirect(url_for("login"))
+		return redirect(url_for("login", _external=self.external))
 
 
 	def questions(self) -> Union[redirect, HTMLBody]:
@@ -223,9 +222,9 @@ class SiteHandler(object):
 					self.db.remove_question(question_id)
 					self.logger.info(f"Removed question with id {question_id}.")
 					flash("Your answer has been submitted. Thanks!")
-					return redirect(url_for("questions"))
+					return redirect(url_for("questions", _external=self.external))
 		flash("Please login first.")
-		return redirect(url_for("login"))
+		return redirect(url_for("login", _external=self.external))
 
 
 	def ask(self) -> Union[redirect, HTMLBody]:
@@ -276,9 +275,9 @@ class SiteHandler(object):
 					# Flash unknown error
 					self.logger.info("Caught unknown error.")
 					flash("Error.")
-				return redirect(url_for("ask"))
+				return redirect(url_for("ask", _external=self.external))
 		flash("Please login to ask questions.")
-		return redirect(url_for("login"))
+		return redirect(url_for("login", _external=self.external))
 
 
 	def events(self) -> [redirect, HTMLBody]:

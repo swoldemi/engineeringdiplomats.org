@@ -19,7 +19,10 @@ def main(logger=None) -> None:
 	os.environ["DEBUG"] = "0"
 	here = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 	logger.info(f"Running from {here}")
-	
+	app.site_handler.callback = "https://www.engineeringdiplomats.org/authorize"
+	app.site_handler.external = True
+	logger.info(f"OAuth2 callback defined as: {app.site_handler.callback}")
+	logger.info(f"Redirect external set to: {app.site_handler.external}")
 	try:
 		WSGIServer(
 			listener=("0.0.0.0", 8080), 
