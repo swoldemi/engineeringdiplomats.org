@@ -48,6 +48,11 @@ class SiteHandler(object):
 		self.db = db
 		self.oauth = oauth
 		self.mailer = mailer
+		
+		if os.environ.get("FLASK_ENV") == "development":
+			self.callback = "http://localhost:8080/authorize"
+		else:
+			self.callback = "http://engineeringdiplomats.org/authorize"
 
 
 	def get_token(self) -> Union[str, None]: # pragma: no cover
@@ -110,7 +115,7 @@ class SiteHandler(object):
 		elif request.method == "GET":
 			return render_template("login.jinja2")
 		session["state"] = str(uuid4())
-		return self.oauth.authorize(callback=url_for("authorize", _external=True), state=session["state"])
+		return self.oauth.authorize(callback=self.callback, state=session.get("state"))
 
 
 	def authorize(self) -> Union[redirect, abort]:
