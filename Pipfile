@@ -23,6 +23,7 @@ dnspython = "*"
 python-dateutil = "*"
 python-dotenv = "*"
 logme = "*"
+python-binary-memcached = "*"
 
 [dev-packages]
 pytest-cov = "*"
