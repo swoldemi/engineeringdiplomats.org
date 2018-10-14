@@ -9,9 +9,6 @@ run:
 test:
 	pipenv run py.test --show-progress --cov=./
 
-reqs:
-	pipenv lock -r -d > requirements.txt
-
 docs:
 	ifeq ($(PIPENV_ACTIVE),1) 
 		echo Beginning documentation build...
