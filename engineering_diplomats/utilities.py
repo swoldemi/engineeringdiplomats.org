@@ -8,13 +8,10 @@ from datetime import datetime
 from typing import List, Tuple, Union
 
 from dateutil.parser import parse
-from googleapiclient.discovery import build
-from httplib2 import Http
-from numpy import array_split
-from oauth2client import file, client, tools
 from twilio.rest import Client
 
 from engineering_diplomats.decorators import thread_task
+from engineering_diplomats.settings import service
 
 
 @thread_task
@@ -109,13 +106,6 @@ def get_events() -> Union[List[List], List[None]]:
 	------
 	Attendes denotes that diplomats that have RSVPed for an event
 	"""
-	store = file.Storage("token.json")
-	creds = store.get()
-	if not creds or creds.invalid:
-		flow = client.flow_from_clientsecrets(os.environ["GOOGLE_CREDS"], SCOPES)
-		creds = tools.run_flow(flow, store)
-	service = build("calendar", "v3", http=creds.authorize(Http()))
-
 	now = datetime.utcnow().isoformat() + "Z" 
 	events_result = service.events().list(
 		calendarId="primary", 
