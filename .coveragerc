@@ -6,6 +6,7 @@ exclude_lines =
     pragma: no cover
     if __name__ == .__main__.:
 	send_text_message
+	pragma: allow
 omit =
 	*/production/*
 	setup.py
