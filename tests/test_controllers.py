@@ -89,5 +89,5 @@ class TestSuiteControllers(object):
 	def test_cache(self):
 		"""Test the memecached client."""
 		cache_client = MemcachedConnector().client
-		assert cache_client.set("key", "hello") is True
+		cache_client.set("key", "hello")
 		assert cache_client.get("key") == "hello"
