@@ -131,10 +131,15 @@ class SiteHandler(object):
 		# Extract states
 		request_state = request.args.get("state", default=None)
 		session_state = session.get("state", default=None)
+		self.logger.info("In /authorize")
+		self.logger.debug(f"Request state: {request_state}")
+		self.logger.debug(f"Session state: {session_state}")
 
 		# Compare states for validity
 		if (request_state != session_state) or (request_state is None):
-			abort(404)	
+			self.logger.error(f"Request state: {request_state}")
+			self.logger.error(f"Session state: {session_state}")
+			abort(404)
 		elif self.is_authorized:
 			flash("You are already logged in.")
 			return redirect(url_for("index", _external=self.external))
