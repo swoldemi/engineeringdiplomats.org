@@ -119,7 +119,7 @@ def get_events() -> Union[List[List], List[None]]:
 		start_time = parse(event["start"].get("dateTime", event["start"].get("date"))).__str__().split(" ")[0]
 		start_time = f"{parse(start_time).strftime('%m-%d-%Y')} at 5:00 PM"
 		entry = [event["summary"], start_time, event["location"], event.get("attendees", None)]
-		if entry[3] is not None:
+		if entry[3] is not None: # pragma: allow
 			entry[3] = [e["email"] for e in entry[3]]
 		all_events.append(entry)
 	return all_events
@@ -134,4 +134,4 @@ def update_event(event: List[str]) -> None:
 		A list containing the name of the event to be updated and 
 		the email of the diplomat who RSVP'd.
 	"""
-	pass
+	raise NotImplementedError
