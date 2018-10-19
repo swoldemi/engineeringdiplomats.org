@@ -4,6 +4,11 @@
 
 import os
 
+from googleapiclient.discovery import build
+from httplib2 import Http
+from oauth2client import file, client, tools
+
+
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 microsoft_oauth_config = {
@@ -30,5 +35,13 @@ app_config_kwargs = {
     "RECAPTCHA_PARAMETERS": {"hl": "en", "render": "explicit"},
     "RECAPTCHA_DATA_ATTRS": {"theme": "dark"},
 }
+
+# Google Calendar service initialization
+store = file.Storage("token.json")
+creds = store.get()
+if not creds or creds.invalid: # pragma: allow
+	flow = client.flow_from_clientsecrets(os.environ.get("GOOGLE_CREDS"), "https://www.googleapis.com/auth/calendar")
+	creds = tools.run_flow(flow, store)
+service = build("calendar", "v3", http=creds.authorize(Http()))
 
 emails_log_file = open(os.path.join(__location__, "../logs/emails.log"), "a+")
