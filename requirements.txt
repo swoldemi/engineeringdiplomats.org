@@ -15,7 +15,7 @@ docutils==0.14
 flask==1.0.2
 idna==2.7
 imagesize==1.1.0; python_version != '3.1.*'
-itsdangerous==0.24
+itsdangerous==1.0.0
 jinja2==2.10
 markupsafe==1.0
 more-itertools==4.3.0
