@@ -90,7 +90,7 @@ a.navbar-item.brand:focus,
 a.navbar-item.brand:hover {
     background-color: black !important;
     border-bottom-color: black !important;
-    color: white !important
+    color: white !important;
 }
 
 /* QA Containers */
