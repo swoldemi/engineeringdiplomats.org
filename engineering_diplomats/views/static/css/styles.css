@@ -33,6 +33,12 @@ img {
     border: 1px solid #ccc;
 }
 
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .is-6by4 {
     padding-top: 100%;
     border: 1px solid #ccc;
