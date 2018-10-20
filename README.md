@@ -4,7 +4,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/02c0c324b1970d0ab448/maintainability)](https://codeclimate.com/github/swoldemi/engineeringdiplomats.org/maintainability)
 [![Gitter chat](https://badges.gitter.im/swoldemi/engineeringdiplomats.org.png)](https://gitter.im/swoldemi/engineeringdiplomats.org)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fswoldemi%2Fengineeringdiplomats.org.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fswoldemi%2Fengineeringdiplomats.org?ref=badge_shield)
-## [engineeringdiplomats.org](http://engineeringdiplomats.org)
+## [engineeringdiplomats.org](https://engineeringdiplomats.org)
 
 A web application for Texas Tech University's Engineering Diplomats.
 
@@ -33,8 +33,8 @@ A web application for Texas Tech University's Engineering Diplomats.
 6. Hosts resources which assist Engineering Diplomats during their office hours.
 
 ## What this is not 
-1. A replacement for http://www.depts.ttu.edu/coe/iep/
-2. A replacement for http://www.depts.ttu.edu/coe/iep/diplomats.php
+1. A replacement for https://www.depts.ttu.edu/coe/iep/
+2. A replacement for https://www.depts.ttu.edu/coe/iep/diplomats.php
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fswoldemi%2Fengineeringdiplomats.org.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fswoldemi%2Fengineeringdiplomats.org?ref=badge_large)

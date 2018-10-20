@@ -1,4 +1,4 @@
-Copyright (c)  2018 - 2019 Texas Tech University - Whitacre College of Engineering - Engineering Diplomats, http://engineeringdiplomats.org
+Copyright (c)  2018 - 2019 Texas Tech University - Whitacre College of Engineering - Engineering Diplomats, https://engineeringdiplomats.org
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
