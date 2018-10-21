@@ -4,25 +4,15 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/02c0c324b1970d0ab448/maintainability)](https://codeclimate.com/github/swoldemi/engineeringdiplomats.org/maintainability)
 [![Gitter chat](https://badges.gitter.im/swoldemi/engineeringdiplomats.org.png)](https://gitter.im/swoldemi/engineeringdiplomats.org)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fswoldemi%2Fengineeringdiplomats.org.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fswoldemi%2Fengineeringdiplomats.org?ref=badge_shield)
-## [engineeringdiplomats.org](https://engineeringdiplomats.org)
+## [engineeringdiplomats.org](https://www.engineeringdiplomats.org)
 
 A web application for Texas Tech University's Engineering Diplomats.
 
 ## Progress
    - Trello Board: https://trello.com/b/Hr7bwsio/engineeringdiplomatsorg
 
-
-## Local Setup
-1. [Install Python 3.7](https://www.python.org/downloads/release/python-370/)
-2. Install `make`
-    - Windows ([Chocolatey](https://chocolatey.org/docs/installation)): `choco install make`
-    - Mac ([Homebrew](http://brewformulas.org/Make)): `brew install make`
-3. Begin development environment
-    1. `git clone https://github.com/swoldemi/engineeringdiplomats.org`
-    2. `cd engineeringdiplomats.org`
-    3. `make init`
-    4. `make run`
-4. Go to `localhost:8080` in your browser
+## Contributing
+The current state of the repository is not contributor friendly. Please [open an issue](https://github.com/swoldemi/engineeringdiplomats.org/issues/new?title=I+would+like+to+contribute!) if you would like to contribute to the project. 
 
 ## What this is
 1. Displays International Engineering Program and Engineering Diplomats' events for view by anyone.
