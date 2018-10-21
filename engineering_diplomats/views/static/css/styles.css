@@ -33,6 +33,22 @@ img {
     border: 1px solid #ccc;
 }
 
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.is-6by4 {
+    padding-top: 100%;
+    border: 1px solid #ccc;
+}
+.is-6by4 img {
+    position: absolute;
+    top: 25%;
+    border: unset;
+}
+
 .is-note {
     padding-top: 5px;
 }
