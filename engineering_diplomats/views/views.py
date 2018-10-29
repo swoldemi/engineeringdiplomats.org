@@ -325,5 +325,7 @@ class SiteHandler(object):
 		if self.is_authorized:
 			if session.get("user").get("is_diplomat") == "True":
 				return render_template("points.jinja2", points=self.db.get_points(session.get("user").get("email")))
-		flash("Only Engineering Diplomats may view this page.")
-		return redirect(url_for("index", _external=self.external))
+			flash("Only Engineering Diplomats may view this page.")
+			return redirect(url_for("index", _external=self.external))
+		flash("Please login first.")
+		return redirect(url_for("login", _external=self.external))
