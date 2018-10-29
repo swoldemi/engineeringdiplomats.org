@@ -104,6 +104,8 @@ venv.bak/
 .mypy_cache/
 
 backpop
+*points**
+**.zip
 deploy.sh
 *token**
 *secret**
