@@ -135,3 +135,19 @@ class MongoConnector(object):
 			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
+
+
+	def get_points(self, email) -> dict:
+		"""Get all upcoming fundraisers from fundraisers collection.
+		
+		Returns
+		--------
+		dict
+			Document containing a diplomat's points and event attendance.
+		"""
+		with self.app.app_context():
+			try:
+				return self.diplomats_collection.find_one({"email": email})
+			except self.errors as e: # pragma: no cover
+				self.logger.exception(e)
+				raise
