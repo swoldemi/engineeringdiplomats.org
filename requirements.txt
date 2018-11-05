@@ -27,7 +27,7 @@ pyparsing==2.2.2; python_version != '3.2.*'
 pytest-cov==2.6.0
 pytest-flask==0.13.0
 pytest-progress==1.2.1
-pytest==3.9.1; python_version != '3.1.*'
+pytest==3.9.2; python_version != '3.1.*'
 pytz==2018.6
 recommonmark==0.4.0
 requests==2.20.0; python_version >= '3.0'
