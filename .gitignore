@@ -105,6 +105,7 @@ venv.bak/
 
 backpop
 *points**
+!*points.jinja2
 **.zip
 deploy.sh
 *secret**

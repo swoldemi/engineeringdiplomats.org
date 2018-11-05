@@ -1,0 +1,41 @@
+{% extends "layout.jinja2" -%}
+{% block body -%}
+{% include "_partials/_flash.jinja2" -%}
+<div class="box">
+    <p class="has-text-centered">
+        Your points for this semester.
+    </p>
+</div>
+<section class="section">
+    <div class="container is-vcentered">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Fall 2018 Points
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content has-text-centered">
+                    <h1 class="title">Current total: {{ points.points }}</h1>
+                    <div class="is-divider" data-content="&#8212;"></div>
+                </div>
+                <div class="content">
+                    <nav class="panel">
+                        <p class="panel-heading">
+                            Events
+                        </p>
+                        {% for event in points.events%}
+                        <a class="panel-block">
+                            <span class="panel-icon">
+                                {{ loop.index }}
+                            </span>
+                            {{ event }}
+                        </a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%- endblock %}
