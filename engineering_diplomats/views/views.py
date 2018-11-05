@@ -228,6 +228,8 @@ class SiteHandler(object):
 					self.logger.info(f"Removed question with id {question_id}.")
 					flash("Your answer has been submitted. Thanks!")
 					return redirect(url_for("questions", _external=self.external))
+			flash("Only Engineering Diplomats may answer questions.")
+			return redirect(url_for("index", _external=self.external))
 		flash("Please login first.")
 		return redirect(url_for("login", _external=self.external))
 
@@ -311,3 +313,19 @@ class SiteHandler(object):
 	def fundraisers(self) -> HTMLBody:
 		"""View for fundraisers page."""
 		return render_template("fundraisers.jinja2", fundraisers=self.db.get_fundraisers())
+
+
+	def points(self) -> HTMLBody:
+		"""View for points page.
+		
+		Notes
+		------
+		Only Engineering Diplomats may view this page.
+		"""
+		if self.is_authorized:
+			if session.get("user").get("is_diplomat") == "True":
+				return render_template("points.jinja2", points=self.db.get_points(session.get("user").get("email")))
+			flash("Only Engineering Diplomats may view this page.")
+			return redirect(url_for("index", _external=self.external))
+		flash("Please login first.")
+		return redirect(url_for("login", _external=self.external))

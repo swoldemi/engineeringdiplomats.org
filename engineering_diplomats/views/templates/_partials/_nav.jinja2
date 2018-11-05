@@ -21,12 +21,14 @@
                         href="{{ url_for('resources') }}">Resources</a>
                     <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'events' }}"
                         href="{{ url_for('events') }}">Events</a>
-                        <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'fundraisers' }}"
+                    <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'fundraisers' }}"
                         href="{{ url_for('fundraisers') }}">Fundraisers</a>
                     {% if "user" in session -%}
                     {% if session.user.is_diplomat -%}
                     <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'questions' }}"
                         href="{{ url_for('questions') }}">Questions</a>
+                    <a class="navbar-item button has-text-white {{'is-active' if request.url_rule.endpoint == 'points' }}"
+                        href="{{ url_for('points') }}">Points</a>
                     {%- endif %}
                     {%- endif %}
                     {% if "user" in session -%}
