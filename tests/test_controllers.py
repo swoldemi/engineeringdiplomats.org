@@ -50,6 +50,9 @@ class TestSuiteControllers(object):
 		# Delete the question that was just added
 		assert mongo_connector.remove_question(question_document["question_id"])
 
+		# Get points for a Diplomat
+		assert mongo_connector.get_points(question_document["submitters_email"])
+
 
 	def test_mailer(self, app):
 		"""Test mailing controller.

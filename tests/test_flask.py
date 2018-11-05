@@ -44,6 +44,7 @@ class TestSuiteFlask(object):
 		assert client.get(url_for("login")).status_code == OK
 		assert client.get(url_for("events")).status_code == OK
 		assert client.get(url_for("fundraisers")).status_code == OK
+		assert client.get(url_for("points")).status_code == REDIRECT
 		assert client.get(url_for("ask")).status_code == REDIRECT
 		assert client.get(url_for("logout")).status_code == REDIRECT
 		assert client.get(url_for("questions")).status_code == REDIRECT
@@ -121,6 +122,9 @@ class TestSuiteFlask(object):
 		# Test /questions 
 		assert client.get(url_for("questions")).status_code == OK
 		assert client.post(url_for("questions"), data=data).status_code == REDIRECT
+
+		# Test /points while logged in
+		assert client.get(url_for("points")).status_code == OK
 
 		# Sleep to give worker thread some time to complete SMTP exchanges
 		print("Sleeping... ")
