@@ -10,11 +10,13 @@ exclude_lines =
 omit =
 	*/production/*
 	setup.py
+	**points.py**
 
 [run]
 omit =
 	*/production/*
 	setup.py
+	**points.py**
 
 [html]
 directory = docs/coverage_report
