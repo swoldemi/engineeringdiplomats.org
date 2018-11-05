@@ -107,7 +107,6 @@ backpop
 *points**
 **.zip
 deploy.sh
-*token**
 *secret**
 credentials.json
 credentials.tar.gz
