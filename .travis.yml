@@ -3,6 +3,11 @@ language: python
 python:
 - '3.7'
 dist: xenial
+services:
+- docker
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
 before_install:
 - echo $TOKEN | gpg --passphrase-fd 0 credentials.tar.gz.gpg
 - tar -xzf credentials.tar.gz
@@ -13,6 +18,20 @@ install:
 script:
 - pipenv run pytest --cov=./ --show-progress
 - pipenv run coveralls
+before_deploy:
+- gcloud version || true
+- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export
+  CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+- source /home/travis/google-cloud-sdk/path.bash.inc
+- gcloud version
+- gcloud components install kubectl
+- gcloud --quiet components update
+deploy:
+- provider: script
+  script: chmod +x $TRAVIS_BUILD_DIR/k8s/deploy.sh && sh $TRAVIS_BUILD_DIR/k8s/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: swoldemi/master
 env:
   global:
-    secure: hRlaAKAy8x6J0wZ8YUf81aszQS6NhNSJujIsZuqWmktb8oBXZTQaecSg7A3jRKOK9ccnKQdsBRF3+AFvxCRHwt1F90+87CnmNFJxAuru1CeMy/9m7FBtVblf+ntnFjGw9rqOL4qNA1Xok2ZUVtv2FuAkx+emS/10lIQEWQDtl/+4pbdAhbdgL9MPzzrb7Q2Idgcd1+1Ji4BPfpBB9HUIzmHB4W/9piVo4SJXG3flQnopy2Ycn6PtvxW3twOhgvY0Ut8hNWTfEL2qZmYvDZPh8EwjzEH8Rbx0ItAGxA4jafRfGcexqxYnV53fLeeMIy1VDu06YbA4NKHKPJvuS97SqV4rbnaI5fJQNgrLbfk+S4APTJe//c95UFUDYjKd1+YEnKpvmTvXgORz8LgF1O4wiBifGqAXL4JwnfTXD38z/twpCgk88NVI4yfxWDrMHmWwCTbzsMwAfncA8xYDunR/d4x6XX1Dz6CFPIuaBLHNyTqC0AoAJI1UV6VqU2lgS+u4giuboWYe5DKmJAzfwP6FfjWLln4ETrQYamaBwUHP5VvevJ5FbXyv8uLu1N77aAlv8NZDHZQciS4eDgenTtl5Z1HMeSU6APzTkfjigY7xUVSzHHTAg3tgzZG4gnecW6L1fXsfiproP4zXhACZxiZr39v4uggk/trSLtnm/IY4BYo=
+    secure: Jb+R8fLMq1mOIkRRAYTkOfahuAu+Hsn9PHl52vg5QD/CLT0/RG/ByNkft3loWQKedcCOf3KoihCYbFX21lINiBm4ta2fc4W3lb3JitIOwSu5y0friQ2SmQxNZksUNxwCuW9bAf5UXVrmn4vd7y2+nqgIR61oVW0JuupatU/liCUlfnpAzzm3ByxMizZh16G+Y9lRFUFIXzA/ipVkKXVujjnV7TJ1KAkWAWWMUkoOLOZD/kX1vIyQzmSQnE9YFJ8z3YDnKeySdlbxv/30mDXbmX5jyLlW+KVaX/SUzDwZE57OiBSfOZoi338ebXD4w5kGSbsgJIh7M20JMRduRJKzqaefYJWQffVkJykz2R9Aznp0J7yzevVoKIhvp2DaDaUWvaSfwby/ZvA2HTf5CejCmWtyvapfqXuc6sHGLaSx3+JTAlyPaepRgbNIyZuqNHzGo/fETBhSR/+y/jnOimk97ggVwPBUh/W6wVhs8HYhrcKradkPIqecNIs654EaXBQMeQ8T1lYvT8PjaiTtxnIjYLYP758UnOQblTCczbL/gkAYmavuS5b+q9xAkech32me08sxwhcKWzLyOC8zcU7KvDb61qrC1FWxLBVPicmKpmZtVb5BRZrYLgtRkfhNoI7HuvwvBY6hhd+J9DGPPD1IFUYaE6RwxRFKCJRiYfdFfAo=
