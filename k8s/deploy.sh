@@ -9,4 +9,4 @@ gcloud --quiet config set compute/zone $COMPUTE_ZONE
 
 docker build -t gcr.io/$GCP_PROJECT_ID/engineeringdiplomats.org:latest .
 docker login -u _json_key -p "$(cat gcp-creds.json)" https://gcr.io
-docker push gcr.io/$GCP_PROJECT_ID/pathshare-backend:latest
+docker push gcr.io/$GCP_PROJECT_ID/engineeringdiplomats.org:latest
