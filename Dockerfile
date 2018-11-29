@@ -1,5 +1,5 @@
 FROM python:3.7
-MAINTAINER Simon "simon.woldemichael@ttu.edu"
+LABEL maintainer="Simon <simon.woldemichael@ttu.edu>"
 ADD . /engineeringdiplomats.org
 WORKDIR /engineeringdiplomats.org
 RUN python -m pip install pipenv
