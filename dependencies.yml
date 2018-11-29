@@ -3,4 +3,9 @@ dependencies:
 - type: dockerfile
   path: Dockerfile
 - type: python
-  path: requirements.txt
+  path: Pipfile
+  settings:
+    pipfile_sections:
+    - packages
+    pipfilelock_sections:
+    - default
