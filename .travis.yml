@@ -31,7 +31,7 @@ deploy:
   script: chmod +x $TRAVIS_BUILD_DIR/k8s/deploy.sh && sh $TRAVIS_BUILD_DIR/k8s/deploy.sh
   skip_cleanup: true
   on:
-    branch: master
+    branch: k8s/rolling
 env:
   global:
   - secure: Jb+R8fLMq1mOIkRRAYTkOfahuAu+Hsn9PHl52vg5QD/CLT0/RG/ByNkft3loWQKedcCOf3KoihCYbFX21lINiBm4ta2fc4W3lb3JitIOwSu5y0friQ2SmQxNZksUNxwCuW9bAf5UXVrmn4vd7y2+nqgIR61oVW0JuupatU/liCUlfnpAzzm3ByxMizZh16G+Y9lRFUFIXzA/ipVkKXVujjnV7TJ1KAkWAWWMUkoOLOZD/kX1vIyQzmSQnE9YFJ8z3YDnKeySdlbxv/30mDXbmX5jyLlW+KVaX/SUzDwZE57OiBSfOZoi338ebXD4w5kGSbsgJIh7M20JMRduRJKzqaefYJWQffVkJykz2R9Aznp0J7yzevVoKIhvp2DaDaUWvaSfwby/ZvA2HTf5CejCmWtyvapfqXuc6sHGLaSx3+JTAlyPaepRgbNIyZuqNHzGo/fETBhSR/+y/jnOimk97ggVwPBUh/W6wVhs8HYhrcKradkPIqecNIs654EaXBQMeQ8T1lYvT8PjaiTtxnIjYLYP758UnOQblTCczbL/gkAYmavuS5b+q9xAkech32me08sxwhcKWzLyOC8zcU7KvDb61qrC1FWxLBVPicmKpmZtVb5BRZrYLgtRkfhNoI7HuvwvBY6hhd+J9DGPPD1IFUYaE6RwxRFKCJRiYfdFfAo=
