@@ -1,0 +1,21 @@
+# GCP specific Load Balancer specification for Kubernetes
+# Review https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: exposer
+spec:
+  selector:
+    app: engineeringdiplomats
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  loadBalancerIP: "35.193.143.218"
