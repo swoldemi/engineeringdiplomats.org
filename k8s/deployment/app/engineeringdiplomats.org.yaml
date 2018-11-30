@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: engineeringdiplomats
+  name: engineeringdiplomats
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: engineeringdiplomats
+  template:
+    metadata:
+      labels:
+        app: engineeringdiplomats
+    spec:
+      containers:
+      - name: app
+        image: gcr.io/engineeringdiplomats-2019/engineeringdiplomats.org:latest
+        imagePullPolicy: Always
+        ports:
+         - name: http
+           containerPort: 8080
+           protocol: TCP
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "1000m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1500m"
