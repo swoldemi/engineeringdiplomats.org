@@ -134,11 +134,11 @@
         },
         "google-api-python-client": {
             "hashes": [
-                "sha256:5d5cb02c6f3112c68eed51b74891a49c0e35263380672d662f8bfe85b8114d7c",
-                "sha256:7cc47cf80b25ecd7f3d917ea247bb6c62587514e40604ae29c47c0e4ebd1174b"
+                "sha256:76fb37d199dfeae4fa8ee6c1c1118f3055750e3091a6bf11d131c0dcf4cd8a0e",
+                "sha256:85674c2aa4b96a478b4d0859f8b814879551a4eaf6977ead6f94863aa8ab46ef"
             ],
             "index": "pypi",
-            "version": "==1.7.4"
+            "version": "==1.7.5"
         },
         "google-auth": {
             "hashes": [
@@ -425,11 +425,11 @@
         },
         "twilio": {
             "hashes": [
-                "sha256:02d97d69e92158b8bb515bbfa112e44b88f63de2fcb7f78243587f259a1716bd",
-                "sha256:48d9b91e2023737574291b0279689904f2bbad814d490a2b03c861596bd25308"
+                "sha256:70ee4b12757595b87efaa5f4dbd001ca2c329cec2669d9be8ff87c1a00c2414e",
+                "sha256:f03e8a1bf849469c5ff99459b996e0426e25220c2ed185d444f980ac9c80d43b"
             ],
             "index": "pypi",
-            "version": "==6.20.0"
+            "version": "==6.21.0"
         },
         "typing": {
             "hashes": [
