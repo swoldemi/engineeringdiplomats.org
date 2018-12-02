@@ -107,10 +107,9 @@ backpop
 *points**
 !*points.jinja2
 **.zip
-deploy.sh
 *secret**
-credentials.json
-credentials.tar.gz
+*cred**
 *token**
 docs/
 certs/
+.vagrant
