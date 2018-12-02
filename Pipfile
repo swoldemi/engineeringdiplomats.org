@@ -24,6 +24,8 @@ python-dateutil = "*"
 python-dotenv = "*"
 logme = "*"
 python-binary-memcached = "*"
+google-cloud-trace = "*"
+opencensus = "*"
 
 [dev-packages]
 pytest-cov = "*"
