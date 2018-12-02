@@ -8,7 +8,7 @@
 </div>
 <section class="section">
     <div class="container">
-        {%- if fundraisers.count() -%}
+        {%- if fundraisers.count_documents -%}
         {% for fundraiser in fundraisers -%}
         <div class="columns">
             <div class="column is-full is-centered">
