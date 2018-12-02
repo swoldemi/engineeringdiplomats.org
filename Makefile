@@ -19,7 +19,7 @@ docs:
 		echo Please run 'pipenv shell' first. 
 
 tarball:
-	tar -czf credentials.tar.gz token.json .env credentials.json logs
+	tar -czf credentials.tar.gz token.json .env credentials.json logs gcp-creds.json
 	travis login --github-token $(TRAVIS_TOKEN)
 	travis encrypt TOKEN=$(TRAVIS_TOKEN) --add
 	gpg -c credentials.tar.gz
