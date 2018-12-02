@@ -13,4 +13,5 @@ docker login -u _json_key -p "$(cat gcp-creds.json)" https://gcr.io
 docker push gcr.io/$GCP_PROJECT_ID/engineeringdiplomats.org:latest
 
 # Update all pods on cluster
+gcloud container clusters get-credentials ed-cluster-1 --zone $COMPUTE_ZONE --project $GCP_PROJECT_ID
 kubectl set image deployments/engineeringdiplomats engineeringdiplomats=gcr.io/$GCP_PROJECT_ID/engineeringdiplomats.org:latest
