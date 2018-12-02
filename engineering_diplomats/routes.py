@@ -15,6 +15,7 @@ def apply_routes(app, handler) -> object:
 	app.add_url_rule("/resources", "resources", handler.resources)
 	app.add_url_rule("/fundraisers", "fundraisers", handler.fundraisers)
 	app.add_url_rule("/points", "points", handler.points)
+	app.add_url_rule("/health", "health", handler.health)
 
 	# Register POST routes
 	methods = ["GET", "POST"]

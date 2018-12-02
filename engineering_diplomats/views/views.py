@@ -13,12 +13,15 @@ import logme
 from flask import (
 	abort,
 	flash,
+	jsonify,
 	redirect, 
 	request, 
 	render_template, 
 	session, 
 	url_for,
 )
+
+from requests import get as rget
 
 from engineering_diplomats.models import (
 	User,
@@ -52,7 +55,8 @@ class SiteHandler(object):
 		self.mailer = mailer
 		self.callback = "http://localhost:8080/authorize"
 		self.external = False
-
+		self.deps_url = os.environ.get("DEPS_URL")
+		self.repo_url = os.environ.get("REPO_URL")
 
 	def get_token(self) -> Union[str, None]: # pragma: no cover
 		"""Called by flask_oauthlib.client to retrieve current access token.
@@ -329,3 +333,15 @@ class SiteHandler(object):
 			return redirect(url_for("index", _external=self.external))
 		flash("Please login first.")
 		return redirect(url_for("login", _external=self.external))
+
+
+	def health(self) -> dict:
+		deps = rget(self.deps_url).json()
+		return jsonify(
+			head=rget(self.repo_url).json()["sha"][:6],
+			python=deps["_meta"]["requires"]["python_version"],
+			flask=deps["default"]["flask"]["version"],
+			gevent=deps["default"]["gevent"]["version"],
+			pymongo=deps["default"]["pymongo"]["version"],
+			requests=deps["default"]["requests"]["version"],
+		)
