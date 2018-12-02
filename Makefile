@@ -23,4 +23,4 @@ tarball:
 	travis login --github-token $(TRAVIS_TOKEN)
 	travis encrypt TOKEN=$(TRAVIS_TOKEN) --add
 	gpg -c credentials.tar.gz
-	del credentials.tar.gz
+	rm credentials.tar.gz
