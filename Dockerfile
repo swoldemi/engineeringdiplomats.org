@@ -1,4 +1,4 @@
-FROM python:3.7.1-slim-stretch
+FROM python:3.7.2
 LABEL maintainer="Simon Woldemichael <simon.woldemichael@ttu.edu>"
 ADD . /engineeringdiplomats.org
 WORKDIR /engineeringdiplomats.org
