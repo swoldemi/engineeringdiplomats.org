@@ -84,7 +84,7 @@ class MongoConnector(object):
 				raise
 	
 
-	def get_questions(self) -> CursorType:
+	def get_questions(self) -> list:
 		"""Get all of the unanswered questions that exist in the database.
 		
 		Returns
@@ -94,11 +94,11 @@ class MongoConnector(object):
 		"""
 		with self.app.app_context():
 			try:
-				return self.questions_collection.find({})
+				questions = self.questions_collection.find({})
 			except self.errors as e: # pragma: no cover
 				self.logger.exception(e)
 				raise
-	
+		return [question for question in questions]
 
 	def remove_question(self, id) -> bool:
 		"""Remove a question that has been answered.
