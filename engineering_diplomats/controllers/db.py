@@ -13,7 +13,7 @@ from pymongo.cursor import CursorType
 from pymongo.errors import ExecutionTimeout, OperationFailure, ServerSelectionTimeoutError
 
 from engineering_diplomats.models import QuestionDocument
-
+from engineering_diplomats.controllers.cache import MemcachedConnector
 
 @logme.log
 class MongoConnector(object):
@@ -46,6 +46,7 @@ class MongoConnector(object):
 		self.diplomats_collection = self.client.diplomats.registered_diplomats
 		self.questions_collection = self.client.diplomats.questions
 		self.fundraisers_collection = self.client.diplomats.fundraisers
+		self.cache = MemcachedConnector().client
 	
 	def get_diplomats(self) -> List[str]:
 		"""Return the emails of all of the registered Engineering Diplomats.
@@ -91,7 +92,7 @@ class MongoConnector(object):
 		--------
 		pymongo.cursor.Cursor : CursorType
 			A cursor for the collection which contains all of the question documents.
-		"""
+		"""			
 		with self.app.app_context():
 			try:
 				questions = self.questions_collection.find({})
@@ -99,6 +100,7 @@ class MongoConnector(object):
 				self.logger.exception(e)
 				raise
 		return [question for question in questions]
+
 
 	def remove_question(self, id) -> bool:
 		"""Remove a question that has been answered.
