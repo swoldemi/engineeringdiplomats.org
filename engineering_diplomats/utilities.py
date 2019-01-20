@@ -4,7 +4,7 @@
 
 import os
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List, Tuple, Union
 
 from dateutil.parser import parse
@@ -101,10 +101,9 @@ def get_events() -> Union[List[List], List[None]]:
 		List[None]:
 			If there are no events in the Google Calendar.
 
-	TODO: Correct start_time
 	Notes
 	------
-	Attendes denotes that diplomats that have RSVPed for an event
+	event.attendees denotes that diplomats that have RSVPed for an event
 	"""
 	now = datetime.utcnow().isoformat() + "Z" 
 	events_result = service.events().list(
@@ -113,13 +112,16 @@ def get_events() -> Union[List[List], List[None]]:
 		maxResults=100, 
 		singleEvents=True,
 		orderBy="startTime").execute()
-	events = events_result.get("items", [])
 	all_events = []
-	for event in events:
-		start_time = parse(event["start"].get("dateTime", event["start"].get("date"))).__str__().split(" ")[0]
-		start_time = f"{parse(start_time).strftime('%m-%d-%Y')} at 5:00 PM"
+	for event in events_result.get("items", []):
+		
+		start_date, *start_time = parse(event["start"].get("dateTime")).strftime("%m/%d/%Y %I:%M %p").split(" ")
+		start_time = " ".join(start_time)
+		start = f"{start_date} at {start_time}"
+		
+		# Ignore calendar entries that do no have an event
 		if "location" in event: # pragma: allow
-			entry = [event["summary"], start_time, event["location"], event.get("attendees", None)]
+			entry = [event["summary"], start, event["location"], event.get("attendees", None)]
 			if entry[3] is not None: # pragma: allow
 				entry[3] = [e["email"] for e in entry[3]]
 			all_events.append(entry)
