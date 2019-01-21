@@ -23,7 +23,4 @@
             answer_container.css("display", "grid");
         }
     });
-
-    // Flash message fade
-    $(".flash").delay(2000).slideUp(1500);
 })();
