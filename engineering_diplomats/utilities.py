@@ -98,6 +98,8 @@ def get_events() -> Union[List[List], List[None]]:
 			  The location of the event.
 			- 3 : List[str] 
 			  The diplomats attending the event.
+			- 4: str
+			  The unique event ID
 		List[None]:
 			If there are no events in the Google Calendar.
 
@@ -114,27 +116,52 @@ def get_events() -> Union[List[List], List[None]]:
 		orderBy="startTime").execute()
 	all_events = []
 	for event in events_result.get("items", []):
-		
 		start_date, *start_time = parse(event["start"].get("dateTime")).strftime("%m/%d/%Y %I:%M %p").split(" ")
 		start_time = " ".join(start_time)
 		start = f"{start_date} at {start_time}"
 		
-		# Ignore calendar entries that do no have an event
+		# Ignore calendar entries that do no have a location
 		if "location" in event: # pragma: allow
-			entry = [event["summary"], start, event["location"], event.get("attendees", None)]
+			entry = [event["summary"], start, event["location"], event.get("attendees", None), event.get("id")]
 			if entry[3] is not None: # pragma: allow
 				entry[3] = [e["email"] for e in entry[3]]
 			all_events.append(entry)
 	return all_events
 
 
-def update_event(event: List[str]) -> None:
-	"""Update the RSVP of an event.
+def update_event(email: str, event_id: str) -> str:
+	"""Update the RSVP of an event with a new attendee.
 
 	Parameters
 	----------
-	event : List[str]
-		A list containing the name of the event to be updated and 
-		the email of the diplomat who RSVP'd.
+	email : str
+		The email of the diplomat RSVPing
+	event_id : str
+		The event ID of the information session/event being RSVPed for
+	
+	Returns
+	--------
+	str
+		Result message of the update
 	"""
-	raise NotImplementedError
+	request_body = {
+		"attendees": [{
+			"email": email,
+			"responseStatus": "tentative"
+		}]
+	}
+
+	try:
+		service.events().patch(
+			calendarId="primary",
+			eventId=event_id,
+			body=request_body,
+		).execute()
+		return """
+			You are RSVPed for this event. 
+			If this event is an on-campus information session,
+			please remember to review the presentation for this 
+			information session in advance.
+			"""
+	except Exception as e:
+		return f"Error: {e}"
