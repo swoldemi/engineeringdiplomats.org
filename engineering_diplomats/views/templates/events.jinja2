@@ -1,11 +1,6 @@
 {% extends "layout.jinja2" -%}
 {% block body -%}
 {% include "_partials/_flash.jinja2" -%}
-<div class="box">
-    <p class="has-text-centered">
-        Upcoming information sessions and other important events.
-    </p>
-</div>
 {% if "user" in session -%}
 {% if session.user.is_diplomat -%}
 {%- set is_diplomat = True -%}
@@ -13,6 +8,17 @@
 {%- set is_diplomat = False -%}
 {%- endif %}
 {%- endif %}
+
+<div class="box">
+    <p class="has-text-centered">
+        Upcoming information sessions and other important events.
+        {% if is_diplomat -%}
+        <span class="tag is-light">Viewing as Engineering Diplomat.</span>
+        <span class="tag is-light"><code>Diplomats Attending</code> and <code>RSVP button</code> are hidden to others.</span>
+        {% endif %}
+    </p>
+</div>
+
 <section class="section">
     <div class="container">
         {%- if events -%}
@@ -31,7 +37,12 @@
                             {%- else -%}
                             <p><i>Diplomats Attending:</i> None</p>
                             {%- endif %}
-                            <button type="submit" class="button is-link is-ttu-red">RSVP</button>
+                            <form method="POST">
+                                <input type="hidden" name="event_id" value="{{ events[x].4 }}" />
+                                <input type="hidden" name="email" value="{{ session.user.email }}" />
+                                <button type="submit" class="button is-link is-ttu-red">RSVP to give Information Session</button>
+                            </form>
+                           
                             {%- endif %}
                         </div>
                     </div>
