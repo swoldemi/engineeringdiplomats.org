@@ -29,7 +29,7 @@ from engineering_diplomats.models import (
 	StudentQueryForm,
 )
 
-from engineering_diplomats.utilities import answer_submission, get_events, question_submission 
+from engineering_diplomats.utilities import answer_submission, get_events, question_submission, update_event
 
 HTMLBody = TypeVar("HTMLBody", str, str, str)
 
@@ -306,6 +306,13 @@ class SiteHandler(object):
 		If a user is an Engineering Diplomat: They have read-write permissions.
 		If a user is not an Engineering Diplomat: They have read permissions.
 		"""
+		if request.method == "POST":
+			flash(
+				update_event(
+					request.form.get("email"),
+					request.form.get("event_id"),
+				)
+			)
 		return render_template("events.jinja2", events=get_events())
 
 
