@@ -29,11 +29,12 @@ def main(logger=None) -> None:
 			application=app,  
 			log=logger,
 		).serve_forever()
+	# Don't need to do much on exception as recovery is handled by Kubernetes scheduler
 	except OSError as e:
 		logger.exception(e)
 		raise
 	except Exception as e:
 		logger.exception(e)
-
+		raise
 if __name__ == "__main__":
 	main()
