@@ -34,4 +34,4 @@ class TestSuiteOther(object):
 		ttuengineeringdiplomats@gmail.com's Google Calendar."""
 		all_events = get_events()
 		for event in all_events:
-			assert len(event) is 4
+			assert len(event) == 5
