@@ -13,7 +13,6 @@ from twilio.rest import Client
 from engineering_diplomats.decorators import thread_task
 from engineering_diplomats.settings import service
 
-
 @thread_task
 def send_text_message(message: str) -> None:
 	"""Send testing text messages.
@@ -157,6 +156,7 @@ def update_event(email: str, event_id: str) -> str:
 			eventId=event_id,
 			body=request_body,
 		).execute()
+		send_text_message(f"{email} has successfully RSVPed for event {event_id}.")
 		return """
 			You are RSVPed for this event. 
 			If this event is an on-campus information session,
@@ -164,4 +164,6 @@ def update_event(email: str, event_id: str) -> str:
 			information session in advance.
 			"""
 	except Exception as e:
-		return f"Error: {e}"
+		error_message = f"Error: {e}"
+		send_text_message(f"Error: {e}")
+		return error_message
