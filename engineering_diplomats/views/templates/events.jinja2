@@ -13,8 +13,10 @@
     <p class="has-text-centered">
         Upcoming information sessions and other important events.
         {% if is_diplomat -%}
-        <span class="tag is-light">Viewing as Engineering Diplomat.</span>
-        <span class="tag is-light"><code>Diplomats Attending</code> and <code>RSVP button</code> are hidden to others.</span>
+        <div class="has-text-centered">
+            <span class="tag is-light">Viewing as Engineering Diplomat.
+            <code>Diplomats Attending</code> and <code>RSVP</code> button are hidden to others.</span>
+        </div>
         {% endif %}
     </p>
 </div>
@@ -32,17 +34,30 @@
                             <p><i>Date & Time:</i> {{ events[x].1 }}</p>
                             <p><i>Location:</i> {{ events[x].2 }}</p>
                             {% if is_diplomat -%}
+
                             {% if events[x].3 is not none -%}
                             <p><i>Diplomats Attending:</i> {{ events[x].3|join(" & "|safe) }}</p>
-                            {%- else -%}
-                            <p><i>Diplomats Attending:</i> None</p>
-                            {%- endif %}
+                            {% if session.user.email in events[x].3 -%}
+                            <form method="POST">
+                                <input type="hidden" name="event_id" value="{{ events[x].4 }}" />                                
+                                <input type="hidden" name="unregister" value="{{ session.user.email }}" />
+                                <button type="submit" class="button is-warning">Cancel RSVP</button>
+                            </form>
+                            {% else %}
                             <form method="POST">
                                 <input type="hidden" name="event_id" value="{{ events[x].4 }}" />
                                 <input type="hidden" name="email" value="{{ session.user.email }}" />
-                                <button type="submit" class="button is-link is-ttu-red">RSVP to give Information Session</button>
+                                <button type="submit" class="button is-link is-ttu-red">RSVP</button>
                             </form>
-                           
+                            {%- endif %}
+                            {%- else -%}
+                            <p><i>Diplomats Attending:</i> None</p>
+                            <form method="POST">
+                                <input type="hidden" name="event_id" value="{{ events[x].4 }}" />
+                                <input type="hidden" name="email" value="{{ session.user.email }}" />
+                                <button type="submit" class="button is-link is-ttu-red">RSVP</button>
+                            </form>
+                            {%- endif %}
                             {%- endif %}
                         </div>
                     </div>
