@@ -3,6 +3,11 @@
 {% include "_partials/_flash.jinja2" -%}
 <section class="section">
     <div class="container">
+        <div class="box">
+            <p class="has-text-centered">Note: Only faculty, staff, and students with an active Texas Tech University
+                (@ttu.edu) inbox are permitted to login.</p>
+        </div>
+        <br>
         <form method="POST" action="/login" class="control has-text-centered">
             <button type="submit" class="button has-text-white is-ttu-red is-medium is-size-6-mobile">
                 <i class="fab fa-windows"></i>
@@ -10,11 +15,6 @@
                 Login with your TTU Email Account
             </button>
         </form>
-        <br>
-        <div class="box">
-            <p class="has-text-centered">Note: Only faculty, staff, and students with an active Texas Tech University
-                (@ttu.edu) inbox are permitted to login.</p>
-        </div>
     </div>
 </section>
 {%- endblock %}
