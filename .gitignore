@@ -113,3 +113,4 @@ backpop
 docs/
 certs/
 .vagrant
+dump/
