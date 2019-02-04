@@ -128,7 +128,7 @@ def get_events() -> Union[List[List], List[None]]:
 	return all_events
 
 
-def update_event(email: str, event_id: str) -> str:
+def update_event(email: str, event_id: str, unregister: bool) -> str:
 	"""Update the RSVP of an event with a new attendee.
 
 	Parameters
@@ -137,6 +137,8 @@ def update_event(email: str, event_id: str) -> str:
 		The email of the diplomat RSVPing
 	event_id : str
 		The event ID of the information session/event being RSVPed for
+	unregister : bool
+		A flag to denote if the request being made is to unregister a diplomat
 	
 	Returns
 	--------
@@ -144,26 +146,48 @@ def update_event(email: str, event_id: str) -> str:
 		Result message of the update
 	"""
 	request_body = {
-		"attendees": [{
-			"email": email,
-			"responseStatus": "tentative"
-		}]
+		"sendUpdates": "none",
 	}
 
+	# Get all attendees
+	all_attendees = service.events().get(
+		calendarId="primary", 
+		eventId=event_id
+		).execute().get("attendees")
+	
+	if all_attendees is None:
+		all_attendees = []
+	else:
+		all_attendees = [a.get("email") for a in all_attendees]
+	
+	if unregister:
+		# Remove the attendee 
+		all_attendees.remove(email)
+		request_body["attendees"] = [{"email": email} for email in all_attendees]
+		flash_message = "You are now unregistered for this event."
+	else:
+		# Add the new attendee
+		all_attendees.append(email)
+		request_body["attendees"] = [{"email": e} for e in all_attendees]
+		flash_message = """
+			You are RSVPed for this event. 
+			If this event is an on-campus information session,
+			please remember to review the presentation for this 
+			information session in advance.
+			"""
+	
 	try:
 		service.events().patch(
 			calendarId="primary",
 			eventId=event_id,
 			body=request_body,
 		).execute()
-		send_text_message(f"{email} has successfully RSVPed for event {event_id}.")
-		return """
-			You are RSVPed for this event. 
-			If this event is an on-campus information session,
-			please remember to review the presentation for this 
-			information session in advance.
-			"""
+		state = "RSVPed" if not unregister else "cancelled"
+		send_text_message(f"{email} has successfully {state} for event {event_id}.")
+		return flash_message
+
 	except Exception as e:
 		error_message = f"Error: {e}"
 		send_text_message(f"Error: {e}")
 		return error_message
+
