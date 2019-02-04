@@ -290,7 +290,7 @@ class SiteHandler(object):
 		return redirect(url_for("login", _external=self.external))
 
 
-	def events(self) -> [redirect, HTMLBody]:
+	def events(self) -> Union[redirect, HTMLBody]:
 		"""View for event page.
 		
 		Returns
@@ -307,12 +307,22 @@ class SiteHandler(object):
 		If a user is not an Engineering Diplomat: They have read permissions.
 		"""
 		if request.method == "POST":
-			flash(
-				update_event(
-					request.form.get("email"),
-					request.form.get("event_id"),
+			if "unregister" in request.form:
+				flash (
+					update_event(
+						request.form.get("unregister"),
+						request.form.get("event_id"),
+						True
+					)
 				)
-			)
+			else:	
+				flash(
+					update_event(
+						request.form.get("email"),
+						request.form.get("event_id"),
+						False,
+					)
+				)
 		return render_template("events.jinja2", events=get_events())
 
 
