@@ -371,10 +371,9 @@
         },
         "opencensus": {
             "hashes": [
-                "sha256:9487f3ab1ba389b23e17b7e1e326a607bf0de66e35149eeb3366af2abeab6df7"
+                "sha256:e9043578629b7e9484fd9cf7ab367461e9e46d39d0dd421ceb401b78e6c4a3d7"
             ],
-            "index": "pypi",
-            "version": "==0.1.10"
+            "version": "==0.2.0"
         },
         "protobuf": {
             "hashes": [
