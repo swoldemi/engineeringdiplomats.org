@@ -11,8 +11,8 @@ from flask_oauthlib.client import OAuth
 
 from opencensus.trace.exporters import stackdriver_exporter
 from opencensus.trace.ext.flask.flask_middleware import FlaskMiddleware as Tracing
-from opencensus.trace.exporters.transports.background_thread \
-    import BackgroundThreadTransport
+from opencensus.common.transports.async_ \
+    import AsyncTransport
 
 from engineering_diplomats.controllers import Mailer, MongoConnector
 from engineering_diplomats.routes import apply_routes
@@ -38,7 +38,7 @@ def init_app(logger=None) -> Flask:
 	mailer = Mailer(Mail(app))
 
 	exporter = stackdriver_exporter.StackdriverExporter(
-    	project_id=os.environ.get("GCP_PROJECT"), transport=BackgroundThreadTransport
+    	project_id=os.environ.get("GCP_PROJECT"), transport=AsyncTransport
 	)
 	tracer = Tracing(app, exporter=exporter)
 
