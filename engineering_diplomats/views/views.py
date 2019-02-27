@@ -308,21 +308,18 @@ class SiteHandler(object):
 		"""
 		if request.method == "POST":
 			if "unregister" in request.form:
-				flash (
-					update_event(
+				flash_message = update_event(
 						request.form.get("unregister"),
 						request.form.get("event_id"),
 						True
 					)
-				)
 			else:	
-				flash(
-					update_event(
+				flash_message = update_event(
 						request.form.get("email"),
 						request.form.get("event_id"),
 						False,
 					)
-				)
+			flash(flash_message)
 		return render_template("events.jinja2", events=get_events())
 
 
