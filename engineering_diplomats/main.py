@@ -9,8 +9,8 @@ from flask import Flask
 from flask_mail import Mail
 from flask_oauthlib.client import OAuth
 
-from opencensus.trace.exporters import stackdriver_exporter
-from opencensus.trace.ext.flask.flask_middleware import FlaskMiddleware as Tracing
+from opencensus.ext.stackdriver import trace_exporter as stackdriver_exporter
+from opencensus.ext.flask.flask_middleware import FlaskMiddleware as Tracing
 from opencensus.common.transports.async_ \
     import AsyncTransport
 
