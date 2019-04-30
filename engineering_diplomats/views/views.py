@@ -330,7 +330,10 @@ class SiteHandler(object):
 
 	def fundraisers(self) -> HTMLBody:
 		"""View for fundraisers page."""
-		return render_template("fundraisers.jinja2", fundraisers=self.db.get_fundraisers())
+		data = self.db.get_fundraisers()
+		if data.count() == 0:
+			data = None
+		return render_template("fundraisers.jinja2", fundraisers=data)
 
 
 	def points(self) -> HTMLBody:
